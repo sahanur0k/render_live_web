@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Urena Healthcare</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --primary-light: #e6f2ff;
+            --primary-dark: #004d99;
+            --secondary: #00a0e1;
+            --accent: #00d4b1;
+            --success: #4CAF50;
+            --error: #f44336;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --text-muted: #888888;
+            --background: #f9fafc;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--background);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(216, 241, 255, 0.46) 0%, rgba(255, 255, 255, 0.1) 90%),
+                linear-gradient(to right, rgba(242, 249, 255, 0.9), rgba(255, 255, 255, 0.9));
+        }
+
+        .page-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+        }
+
+        .login-header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background-color: var(--white);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .medical-icon {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .login-form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #e1e5eb;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+            background-color: var(--white);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .password-toggle:hover {
+            color: var(--primary);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+            accent-color: var(--primary);
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-login:hover::before {
+            left: 100%;
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .register-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .register-link a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+        }
+
+        .alert-error {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error);
+            border: 1px solid rgba(244, 67, 54, 0.2);
+        }
+
+        .medical-decoration {
+            position: absolute;
+            z-index: -1;
+        }
+
+        .decoration-1 {
+            top: 10%;
+            left: -50px;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(0, 102, 204, 0.05);
+            border-radius: 50%;
+        }
+
+        .decoration-2 {
+            bottom: 10%;
+            right: -30px;
+            width: 80px;
+            height: 80px;
+            background-color: rgba(0, 212, 177, 0.05);
+            border-radius: 50%;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 576px) {
+            .login-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .login-header {
+                padding: 2rem 1.5rem;
+            }
+
+            .login-form {
+                padding: 1.5rem;
+            }
+
+            .medical-decoration {
+                display: none;
+            }
+        }
+
+        /* Header and Footer */
+        .site-header {
+            background-color: var(--white);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .logo img {
+            height: 30px;
+            margin-bottom: 5px;
+        }
+
+        .nav-links a {
+            margin-left: 1.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .site-footer {
+            background-color: var(--white);
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <a href="/" class="logo">
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486214/WhatsApp_Image_2025-05-16_at_16.22.40_hc3cuc.jpg" alt="Urena Healthcare Logo">
+            <span>Urena Healthcare Pvt. Ltd.</span>
+        </a>
+        
+    </header>
+
+    <div class="page-container">
+        <div class="login-container">
+            <!-- Decorative elements -->
+            <div class="medical-decoration decoration-1"></div>
+            <div class="medical-decoration decoration-2"></div>
+
+            <!-- Login header -->
+            <div class="login-header">
+            
+                    <path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/>
+                </svg>
+                <h1>Welcome Back</h1>
+                <p>Sign in to access your healthcare account</p>
+            </div>
+
+            <!-- Login form -->
+            <div class="login-form">
+                <div id="alertSuccess" class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Login successful! Redirecting...
+                </div>
+
+                <div id="alertError" class="alert alert-error">
+                    <i class="fas fa-exclamation-circle"></i> Invalid username or password. Please try again.
+                </div>
+
+                <form id="signinForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-group">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                            <i class="fas fa-eye-slash password-toggle" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#contact" class="forgot-password">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login">
+                       Login <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                    </button>
+                </form>
+
+                <div class="register-link">
+                    Don't have an account? <a href="/register">Register here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <p>&copy; 2025 Urena Healthcare. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password visibility toggle
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            
+            if (togglePassword && password) {
+                togglePassword.addEventListener('click', function() {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+
+            // Form submission
+            const signinForm = document.getElementById('signinForm');
+            
+            if (signinForm) {
+                signinForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const data = {
+                        username: formData.get("username"),
+                        password: formData.get("password")
+                    };
+                    
+                    try {
+                        const response = await fetch("/api/user/sign-in", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data)
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (response.ok) {
+                            // Show success message
+                            document.getElementById('alertSuccess').style.display = 'block';
+                            
+                            // Store user data in localStorage
+                            localStorage.setItem("token", result.token);
+                            localStorage.setItem("userId", result.id);
+                            localStorage.setItem("role", result.role);
+                            localStorage.setItem("name", result.username || data.username);
+                            
+                            // Set token in cookie
+                            document.cookie = `token=${result.token}; path=/; max-age=${30 * 24 * 60 * 60}`;
+                            
+                            // Redirect based on user role
+                            setTimeout(() => {
+                                if (result.role === "admin") {
+                                    window.location.href = "/admin";
+                                } else {
+                                    window.location.href = "/user";
+                                }
+                            }, 1500);
+                        } else {
+                            // Show error message
+                            document.getElementById('alertError').textContent = result.message || 'Invalid username or password';
+                            document.getElementById('alertError').style.display = 'block';
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        document.getElementById('alertError').textContent = 'Something went wrong!';
+                        document.getElementById('alertError').style.display = 'block';
+                    }
+                });
+            }
+
+            // Add pulse animation to login button
+            const loginBtn = document.querySelector('.btn-login');
+            if (loginBtn) {
+                loginBtn.addEventListener('mouseenter', function() {
+                    this.classList.add('pulse');
+                });
+                loginBtn.addEventListener('mouseleave', function() {
+                    this.classList.remove('pulse');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

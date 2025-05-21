@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediOrder - User Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-light: #eef2ff;
+      --primary-dark: #3a56d4;
+      --secondary: #2ec4b6;
+      --secondary-light: #e0f7f5;
+      --accent: #ff9f1c;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --dark: #2d3748;
+      --gray: #718096;
+      --light-gray: #e2e8f0;
+      --white: #ffffff;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .logo#centerLogo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+
+    .header-left, .header-right {
+      z-index: 2;
+    }
+
+    .home-btn {
+      text-decoration: none;
+      color: var(--primary);
+      background: none;
+      border: none;
+      padding: 0 6px 0 0;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+
+    .home-btn:hover {
+      color: var(--primary-dark);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .logo img {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      margin-bottom: 8px;
+    }
+
+    .logo i {
+      display: none;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .logout-btn {
+      background-color: var(--danger);
+      color: var(--white);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .logout-btn:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
+    }
+
+    .logout-btn i {
+      font-size: 1rem;
+    }
+
+    .notification-bell {
+      position: relative;
+      color: var(--gray);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .notification-bell:hover {
+      color: var(--primary);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: var(--danger);
+      color: var(--white);
+      font-size: 0.7rem;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .user-profile:hover {
+      background-color: var(--primary-light);
+    }
+
+    .user-profile-popup {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 1.5rem;
+      min-width: 300px;
+      z-index: 1000;
+    }
+
+    .user-profile-popup.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .popup-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .popup-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .popup-user-info {
+      flex: 1;
+    }
+
+    .popup-username {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .popup-role {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    .popup-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .popup-info-item {
+      padding: 0.75rem;
+      background-color: var(--primary-light);
+      border-radius: var(--radius);
+    }
+
+    .popup-label {
+      font-size: 0.75rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .popup-value {
+      font-size: 0.95rem;
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .user-role {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* Main Content Styles */
+    .main-container {
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      width: 100%;
+    }
+
+    .dashboard-header {
+      margin-bottom: 2rem;
+    }
+
+    .welcome-message {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .dashboard-subtitle {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+
+    /* Stats Section */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .stat-icon.orders {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .stat-icon.cart {
+      background-color: var(--secondary-light);
+      color: var(--secondary);
+    }
+
+    .stat-icon.pending {
+      background-color: #fff3e0;
+      color: var(--accent);
+    }
+
+    .stat-icon.delivered {
+      background-color: #e0f7ea;
+      color: var(--success);
+    }
+
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    /* Medicines Section */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .view-all {
+      color: var(--primary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .view-all:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .medicines-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .medicine-card {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .medicine-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .medicine-image {
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .medicine-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .medicine-card:hover .medicine-image img {
+      transform: scale(1.05);
+    }
+
+    .medicine-content {
+      padding: 1.25rem;
+    }
+
+    .medicine-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+
+    .medicine-description {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+      height: 40px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .medicine-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .medicine-price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .medicine-stock {
+      font-size: 0.75rem;
+      color: var(--success);
+      background-color: #e0f7ea;
+      padding: 0.25rem 0.5rem;
+      border-radius: 20px;
+    }
+
+    .medicine-stock.low {
+      color: var(--warning);
+      background-color: #fff3e0;
+    }
+
+    .medicine-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .quantity-btn:hover:not(:disabled) {
+      background-color: var(--primary);
+      color: var(--white);
+    }
+
+    .quantity-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .quantity-input {
+      width: 50px;
+      height: 30px;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius);
+      text-align: center;
+      font-size: 0.875rem;
+    }
+
+    .quantity-input:disabled {
+      background-color: var(--light-gray);
+      cursor: not-allowed;
+    }
+
+    .add-to-cart-btn {
+      flex: 1;
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Recent Orders Section */
+    .orders-container {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .orders-header {
+      padding: 1.25rem;
+      border-bottom: 1px solid var(--light-gray);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .orders-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .orders-filter {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-label {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    .filter-select {
+      padding: 0.375rem 0.75rem;
+      border: 1px solid var(--light-gray);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      color: var(--dark);
+      background-color: var(--white);
+      cursor: pointer;
+    }
+
+    .orders-table-container {
+      overflow-x: auto;
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .orders-table th,
+    .orders-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .orders-table th {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray);
+      background-color: #f9fafb;
+    }
+
+    .orders-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .order-id {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .order-date {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    .order-status {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-placed {
+      background-color: #fff3e0;
+      color: var(--accent);
+    }
+
+    .status-shipped {
+      background-color: #e0f2fe;
+      color: #0284c7;
+    }
+
+    .status-delivered {
+      background-color: #e0f7ea;
+      color: var(--success);
+    }
+
+    .order-action {
+      color: var(--primary);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .order-action:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    /* Empty States */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      color: var(--light-gray);
+      margin-bottom: 1rem;
+    }
+
+    .empty-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-description {
+      font-size: 0.875rem;
+      color: var(--gray);
+      max-width: 400px;
+      margin-bottom: 1.5rem;
+    }
+
+    .empty-action {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.75rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .empty-action:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Toast Notifications */
+    .toast-container {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .toast {
+      background-color: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 300px;
+      max-width: 400px;
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+
+    .toast-success .toast-icon {
+      background-color: #e0f7ea;
+      color: var(--success);
+    }
+
+    .toast-error .toast-icon {
+      background-color: #fee2e2;
+      color: var(--danger);
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .toast-message {
+      font-size: 0.8125rem;
+      color: var(--gray);
+    }
+
+    .toast-close {
+      color: var(--gray);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .toast-close:hover {
+      color: var(--dark);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+        transform: translateX(10%);
+      }
+    }
+
+    /* Footer Styles */
+    .footer {
+      background-color: var(--white);
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--light-gray);
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-link {
+      color: var(--gray);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-link:hover {
+      color: var(--primary);
+    }
+
+    .footer-copyright {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 1024px) {
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.5rem;
+      }
+
+      .main-container {
+        padding: 1.5rem;
+      }
+
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+
+      .medicines-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+
+      .footer-container {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .footer-links {
+        margin: 1rem 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .user-menu {
+        gap: 1rem;
+      }
+
+      .user-info {
+        display: none;
+      }
+
+      .welcome-message {
+        font-size: 1.5rem;
+      }
+
+      .orders-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .orders-filter {
+        width: 100%;
+      }
+
+      .filter-select {
+        flex: 1;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        padding: 0.5rem 0.5rem;
+      }
+      .logo#centerLogo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+      }
+      .header-left, .header-right {
+        z-index: 2;
+      }
+      .logo img {
+        height: 32px;
+        margin-bottom: 0;
+      }
+      .user-menu {
+        gap: 10px;
+      }
+      .main-container {
+        padding: 0.5rem;
+      }
+      .dashboard-header {
+        margin-bottom: 1rem;
+      }
+      .stats-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .stat-card {
+        padding: 1rem;
+        font-size: 0.95rem;
+      }
+      .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .medicines-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    /* Debug Panel */
+    .debug-panel {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 1rem;
+      border-radius: var(--radius);
+      max-width: 400px;
+      max-height: 300px;
+      overflow: auto;
+      z-index: 1000;
+      font-family: monospace;
+      font-size: 0.75rem;
+      display: none;
+    }
+
+    .debug-panel.show {
+      display: block;
+    }
+
+    .debug-toggle {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: var(--shadow);
+      display: none !important;
+    }
+
+    .order-medicine {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .medicine-name {
+      font-weight: 500;
+      color: var(--dark);
+    }
+
+    .medicine-quantity {
+      font-size: 0.875rem;
+      color: var(--gray);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #debugPanel {
+      display: none !important;
+    }
+
+    .video-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-video {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(0,30,60,0.7) 0%, rgba(0,80,120,0.5) 100%);
+      z-index: 2;
+    }
+
+    .modern-hero-content {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .frosted-glass {
+      background: rgba(255,255,255,0.10);
+      border-radius: 18px;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.18);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .hero-headline {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 1.2rem;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      animation: fadeInUp 1s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: #e0e0e0;
+      margin-bottom: 2rem;
+      animation: fadeInUp 1.2s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .cta-button {
+      font-size: 1.1rem;
+      padding: 1rem 2.5rem;
+      border-radius: 30px;
+      box-shadow: 0 4px 15px rgba(0,102,204,0.25);
+      background: linear-gradient(90deg, #0066cc 0%, #00a0e1 100%);
+      color: #fff;
+      border: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(90deg, #004d99 0%, #00a0e1 100%);
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    .scroll-indicator {
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      opacity: 0.7;
+      animation: fadeIn 2s;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.3rem;
+    }
+
+    .scroll-indicator svg {
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    @keyframes fadeIn {
+      from { opacity: 0;}
+      to { opacity: 1;}
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0);}
+      50% { transform: translateY(10px);}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container" style="position: relative;">
+      <div class="header-left" style="display: flex; align-items: center;">
+        <a href="/" class="home-btn" style="margin-right: 10px; display: flex; align-items: center; font-size: 1.3rem; color: var(--primary);">
+          <i class="fas fa-home"></i>
+        </a>
+      </div>
+      <a href="/" class="logo" id="centerLogo">
+        <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747840644/WhatsApp_Image_2025-05-21_at_20.44.32_czm5pi.jpg" alt="Urena Healthcare Logo">
+
+      </a>
+      <div class="header-right" style="display: flex; align-items: center;">
+        <div class="user-menu">
+          <div class="user-profile" id="userProfile">
+            <div class="avatar">
+              <span id="userInitial">U</span>
+            </div>
+            <div class="user-info">
+              <div class="user-name" id="userName">User Name</div>
+              <div class="user-role">Customer</div>
+            </div>
+            <div class="user-profile-popup" id="userProfilePopup">
+              <div class="popup-header">
+                <div class="popup-avatar">
+                  <span id="popupUserInitial">U</span>
+                </div>
+                <div class="popup-user-info">
+                  <div class="popup-username" id="popupUserName">User Name</div>
+                  <div class="popup-role">Customer</div>
+                </div>
+              </div>
+              <div class="popup-content">
+                <div class="popup-info-item">
+                  <div class="popup-label">Email</div>
+                  <div class="popup-value" id="popupUserEmail">Loading...</div>
+                </div>
+                <div class="popup-info-item">
+                  <div class="popup-label">Address</div>
+                  <div class="popup-value" id="popupUserAddress">Loading...</div>
+                </div>
+                <div class="popup-info-item">
+                  <div class="popup-label">Member Since</div>
+                  <div class="popup-value" id="popupUserMemberSince">Loading...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="logout-btn" onclick="handleLogout()">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <h1 class="welcome-message">Welcome back, <span id="welcomeName">User</span>!</h1>
+      <p class="dashboard-subtitle">Browse our medicines and place your orders with ease.</p>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-icon orders">
+          <i class="fas fa-shopping-bag"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value" id="totalOrders">0</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon cart">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value" id="cartItems">0</div>
+          <div class="stat-label">Cart Items</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon pending">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value" id="pendingOrders">0</div>
+          <div class="stat-label">Pending Orders</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon delivered">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-content">
+          <div class="stat-value" id="deliveredOrders">0</div>
+          <div class="stat-label">Delivered Orders</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medicines Section -->
+    <div class="section-header">
+      <h2 class="section-title">Available Medicines</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+
+    <div class="medicines-grid" id="medicinesGrid">
+      <!-- Medicine cards will be loaded here -->
+    </div>
+
+    <!-- Recent Orders Section -->
+    <div class="section-header">
+      <h2 class="section-title">Recent Orders</h2>
+      <a href="#" class="view-all">View All Orders</a>
+    </div>
+
+    <div class="orders-container">
+      <div class="orders-header">
+        <div class="orders-title">Order History</div>
+        <div class="orders-filter">
+          <span class="filter-label">Filter by:</span>
+          <select class="filter-select" id="orderFilter">
+            <option value="all">All Orders</option>
+            <option value="order placed">Order Placed</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+          </select>
+        </div>
+      </div>
+      <div class="orders-table-container" id="ordersTableContainer">
+        <!-- Orders will be loaded here -->
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Medicine</th>
+              <th>Date</th>
+              <th>Total Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <!-- Order rows will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Debug Panel -->
+    <div class="debug-panel" id="debugPanel"></div>
+    <div class="debug-toggle" id="debugToggle">
+      <i class="fas fa-bug"></i>
+    </div>
+  </main>
+
+  <script>
+    // Add this function to check and refresh the token if needed
+
+    // Check token validity and refresh if needed
+    function checkTokenValidity() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return false;
+      }
+      
+      // Check if token is expired (this is a simple check, you might need a more sophisticated one)
+      try {
+        // If you're using JWT, you can decode and check the expiration
+        // For now, we'll just make sure the token exists
+        return true;
+      } catch (error) {
+        console.error("Token validation error:", error);
+        return false;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.replace("/");
+      }
+      // Get user information from localStorage
+      const userId = localStorage.getItem("userId");
+      const userName = localStorage.getItem("name") || "User";
+      
+      // Set user name in the UI
+      document.getElementById("userName").textContent = userName;
+      document.getElementById("welcomeName").textContent = userName;
+      document.getElementById("userInitial").textContent = userName.charAt(0);
+      
+      // Check token validity
+      if (!checkTokenValidity()) {
+        showToast('error', 'Authentication Error', 'Your session has expired. Please login again.');
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 2000);
+      }
+
+      // Check if user is authenticated
+      if (!token) {
+        showToast('error', 'Authentication Error', 'Please login to access this page');
+        setTimeout(() => {
+          window.location.replace("/");
+        }, 2000);
+      }
+      
+      // Load medicines
+      loadMedicines();
+      
+      // Load user orders
+      loadUserOrders();
+      
+      // Setup debug panel toggle
+      const debugToggle = document.getElementById('debugToggle');
+      const debugPanel = document.getElementById('debugPanel');
+      
+      debugToggle.addEventListener('click', function() {
+        debugPanel.classList.toggle('show');
+      });
+
+      document.getElementById('debugPanel').classList.add('show');
+
+      const userProfile = document.getElementById('userProfile');
+      const popup = document.getElementById('userProfilePopup');
+      let isPopupVisible = false;
+
+      // Function to load and display user information
+      async function loadUserInfo() {
+        try {
+          const token = localStorage.getItem("token");
+          const response = await fetch("/api/user/get-user-info", {
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch user information');
+          }
+
+          const userData = await response.json();
+          
+          // Update popup content
+          document.getElementById('popupUserName').textContent = userData.username;
+          document.getElementById('popupUserEmail').textContent = userData.email;
+          document.getElementById('popupUserAddress').textContent = userData.address;
+          document.getElementById('popupUserInitial').textContent = userData.username.charAt(0).toUpperCase();
+          
+          // Format and display member since date
+          const memberSince = new Date(userData.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          document.getElementById('popupUserMemberSince').textContent = memberSince;
+
+        } catch (error) {
+          console.error('Error loading user information:', error);
+          showToast('error', 'Error', 'Failed to load user information');
+        }
+      }
+
+      // Toggle popup when clicking on user profile
+      userProfile.addEventListener('click', async function(e) {
+        if (!isPopupVisible) {
+          await loadUserInfo(); // Load user info when opening popup
+        }
+        popup.classList.toggle('show');
+        isPopupVisible = !isPopupVisible;
+        e.stopPropagation();
+      });
+
+      // Close popup when clicking outside
+      document.addEventListener('click', function(e) {
+        if (isPopupVisible && !popup.contains(e.target) && !userProfile.contains(e.target)) {
+          popup.classList.remove('show');
+          isPopupVisible = false;
+        }
+      });
+
+      const hero = document.querySelector('.video-hero');
+      if (hero && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              hero.classList.add('active');
+            }
+          });
+        }, { threshold: 0.3 });
+        observer.observe(hero);
+      } else if (hero) {
+        // Fallback: always add active
+        hero.classList.add('active');
+      }
+
+      const role = localStorage.getItem('role');
+      if (role === 'admin') {
+        window.location.href = '/admin';
+      }
+    });
+
+    // Load medicines from backend
+    async function loadMedicines() {
+      try {
+        const token = localStorage.getItem("token");
+        
+        // First update all medicines stock
+        await fetch("/api/medicine/update-all-stock", {
+          method: 'PUT',
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        // Then get all medicines
+        const response = await fetch("/api/medicine", {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        if (result.status === "Success" && result.data) {
+          const medicinesGrid = document.getElementById('medicinesGrid');
+          medicinesGrid.innerHTML = ''; // Clear existing content
+          
+          result.data.forEach(medicine => {
+            const card = createMedicineCard(medicine);
+            medicinesGrid.appendChild(card);
+          });
+        }
+      } catch (error) {
+        console.error('Error loading medicines:', error);
+        showToast('error', 'Error', 'Failed to load medicines');
+      }
+    }
+
+    // Update medicine stock
+    async function updateMedicineStock(medicineId) {
+      try {
+        const token = localStorage.getItem("token");
+        
+        const response = await fetch(`/api/medicine/update-stock/${medicineId}`, {
+          method: 'PUT',
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            stock: 50 // Set a default stock of 50
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        logToDebug(`Updated stock for medicine ${medicineId}: ${JSON.stringify(result)}`);
+        
+        return result;
+      } catch (error) {
+        console.error('Error updating medicine stock:', error);
+        logToDebug(`Error updating stock for medicine ${medicineId}: ${error.message}`);
+      }
+    }
+
+    // Create medicine card element
+    function createMedicineCard(medicine) {
+      const card = document.createElement('div');
+      card.className = 'medicine-card';
+      card.setAttribute('data-base-price', medicine.price);
+      
+      // Handle undefined or missing values
+      const productName = medicine.product_name || 'Unknown Medicine';
+      const description = medicine.description || 'No description available';
+      const price = medicine.price || 0;
+      const stock = medicine.stock || 0;
+      const imageUrl = medicine.product_name === 'Uracid-D' ? 'https://res.cloudinary.com/dalupyned/image/upload/v1747486250/WhatsApp_Image_2025-05-17_at_18.18.43_2_i2fboj.jpg' :         
+        medicine.product_name === 'TenjoFit' ? 'https://res.cloudinary.com/dalupyned/image/upload/v1747486215/WhatsApp_Image_2025-05-17_at_18.18.43_phqq7p.jpg' :        
+        medicine.product_name === 'Bonura-Max' ? 'https://res.cloudinary.com/dalupyned/image/upload/v1747486635/WhatsApp_Image_2025-05-17_at_18.25.38_t3lwsd.jpg' :        
+        (medicine.image_url || 'https://via.placeholder.com/300x180');
+
+      card.innerHTML = `
+        <div class="medicine-image">
+          <img src="${imageUrl}" alt="${productName}" onerror="this.src='https://via.placeholder.com/300x180'">
+        </div>
+        <div class="medicine-content">
+          <h3 class="medicine-name">${productName}</h3>
+          <p class="medicine-description">${description}</p>
+          <div class="medicine-meta">
+            <div>
+              <span class="medicine-price">₹${price}</span>
+              <span class="medicine-total-price" style="margin-left:8px; color:#2ec4b6; font-weight:600;"></span>
+            </div>
+            <div class="medicine-stock ${stock < 10 ? 'low' : ''}">
+              ${stock > 0 ? `In Stock` : 'Out of Stock'}
+            </div>
+          </div>
+          <div class="medicine-actions">
+            <div class="quantity-control">
+              <button class="quantity-btn" onclick="decrementQuantity(this)" ${stock === 0 ? 'disabled' : ''}>-</button>
+              <input type="number" class="quantity-input" value="1" min="1" max="${stock}" ${stock === 0 ? 'disabled' : ''}>
+              <button class="quantity-btn" onclick="incrementQuantity(this)" ${stock === 0 ? 'disabled' : ''}>+</button>
+            </div>
+            <button class="add-to-cart-btn" onclick="placeOrder('${medicine._id}', '${productName}', this)" ${stock === 0 ? 'disabled' : ''}>
+              <i class="fas fa-shopping-cart"></i>
+              ${stock === 0 ? 'Out of Stock' : 'Order Now'}
+            </button>
+          </div>
+        </div>
+      `;
+      
+      return card;
+    }
+    
+    // Increment quantity
+    function incrementQuantity(button) {
+      const input = button.parentElement.querySelector('.quantity-input');
+      const max = parseInt(input.getAttribute('max'));
+      let value = parseInt(input.value);
+      
+      if (value < max) {
+        input.value = value + 1;
+        updateTotalAmount(input);
+      }
+    }
+    
+    // Decrement quantity
+    function decrementQuantity(button) {
+      const input = button.parentElement.querySelector('.quantity-input');
+      let value = parseInt(input.value);
+      
+      if (value > 1) {
+        input.value = value - 1;
+        updateTotalAmount(input);
+      }
+    }
+    
+    // Update total amount when quantity changes
+    function updateTotalAmount(input) {
+      const medicineCard = input.closest('.medicine-card');
+      const priceElement = medicineCard.querySelector('.medicine-price');
+      const totalPriceElement = medicineCard.querySelector('.medicine-total-price');
+      const quantity = parseInt(input.value);
+      
+      // Get the base price from the data attribute or current price
+      let basePrice = medicineCard.getAttribute('data-base-price');
+      if (!basePrice) {
+        basePrice = parseFloat(priceElement.textContent.replace('₹', ''));
+        medicineCard.setAttribute('data-base-price', basePrice);
+      } else {
+        basePrice = parseFloat(basePrice);
+      }
+      
+      const totalAmount = basePrice * quantity;
+      
+      // Always show the unit price
+      priceElement.textContent = `₹${basePrice}`;
+
+      // Show total price only if quantity > 1
+      if (quantity > 1) {
+        totalPriceElement.textContent = `Total: ₹${totalAmount}`;
+      } else {
+        totalPriceElement.textContent = '';
+      }
+    }
+    
+    // Place order function
+    async function placeOrder(medicineId, medicineName, button) {
+        try {
+            // Get the quantity input and price elements
+            const quantityInput = button.parentElement.querySelector('.quantity-input');
+            const medicineCard = button.closest('.medicine-card');
+            const basePrice = parseFloat(medicineCard.getAttribute('data-base-price'));
+            
+            if (!quantityInput || !basePrice) {
+                showToast('error', 'Error', 'Could not find quantity input or price');
+                return;
+            }
+            
+            const quantity = parseInt(quantityInput.value);
+            const totalPrice = basePrice * quantity;
+            
+            // Validate quantity
+            if (!quantity || quantity < 1) {
+                showToast('error', 'Invalid Quantity', 'Please select a valid quantity');
+                return;
+            }
+            
+            // Show loading state
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            button.disabled = true;
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.replace('/');
+                return;
+            }
+            
+            const response = await fetch('/api/order/place-order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    order: [{
+                        _id: medicineId,
+                        quantity: quantity,
+                        price: basePrice // Use base price instead of total price
+                    }]
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.status === "Success") {
+                showToast('success', 'Order Placed', `Successfully ordered ${quantity} ${medicineName}(s) for ₹${totalPrice}`);
+                quantityInput.value = 1;
+                
+                // Refresh medicines and orders
+                await Promise.all([loadMedicines(), loadUserOrders()]);
+            } else {
+                showToast('error', 'Order Failed', result.message || "Failed to place order");
+            }
+        } catch (error) {
+            console.error('Error placing order:', error);
+            showToast('error', 'Error', error.message || 'Something went wrong. Please try again.');
+        } finally {
+            // Reset button state
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+    }
+    
+    // Load user orders
+    async function loadUserOrders() {
+      try {
+        const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("userId");
+        
+        if (!token || !userId) {
+          return;
+        }
+        
+        logToDebug("Loading user orders...");
+        
+        // Make API request - IMPORTANT: Use the correct API endpoint
+        const response = await fetch("/api/order/get-user-orders", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "id": userId
+          }
+        });
+        
+        logToDebug(`Orders response status: ${response.status}`);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        
+        const responseText = await response.text();
+        logToDebug(`Orders response: ${responseText}`);
+        
+        let result;
+        try {
+          if (responseText) {
+            result = JSON.parse(responseText);
+          } else {
+            throw new Error("Empty response from server");
+          }
+        } catch (e) {
+          logToDebug(`Error parsing orders response: ${e.message}`);
+          throw new Error("Invalid response from server");
+        }
+        
+        if (result && result.status === "Success" && result.data) {
+          // Update stats
+          updateOrderStats(result.data);
+          
+          // Render orders
+          renderOrders(result.data);
+        } else {
+          // Show empty state
+          showEmptyOrdersState();
+        }
+      } catch (error) {
+        logToDebug(`Error loading orders: ${error.message}`);
+        showEmptyOrdersState("Error loading orders. Please try again.");
+      }
+    }
+    
+    // Update order statistics
+    function updateOrderStats(orders) {
+      if (!orders || !orders.length) {
+        document.getElementById("totalOrders").textContent = "0";
+        document.getElementById("pendingOrders").textContent = "0";
+        document.getElementById("deliveredOrders").textContent = "0";
+        return;
+      }
+      
+      document.getElementById("totalOrders").textContent = orders.length;
+      
+      const pendingCount = orders.filter(order => order.status === "order placed").length;
+      document.getElementById("pendingOrders").textContent = pendingCount;
+      
+      const deliveredCount = orders.filter(order => order.status === "delivered").length;
+      document.getElementById("deliveredOrders").textContent = deliveredCount;
+      
+      // Update cart items (this would normally come from a separate API call)
+      document.getElementById("cartItems").textContent = "0";
+    }
+    
+    // Render orders
+    function renderOrders(orders) {
+      const tableBody = document.getElementById("ordersTableBody");
+      
+      if (!orders || !orders.length) {
+        showEmptyOrdersState();
+        return;
+      }
+      
+      // Sort orders by date (newest first)
+      orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      
+      // Generate table rows
+      tableBody.innerHTML = orders.map(order => {
+        const date = new Date(order.createdAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric"
+        });
+        
+        const medicineName = order.medicine ? order.medicine.product_name : 'Unknown Medicine';
+        const quantity = order.quantity || 1;
+        
+        let statusClass = '';
+        switch (order.status) {
+          case 'order placed':
+            statusClass = 'status-placed';
+            break;
+          case 'shipped':
+            statusClass = 'status-shipped';
+            break;
+          case 'delivered':
+            statusClass = 'status-delivered';
+            break;
+        }
+        
+        const price = order.medicine && order.medicine.price ? order.medicine.price : 0;
+        const totalPrice = price * quantity;
+        
+        return `
+          <tr>
+            <td>
+              <div class="order-id">${order._id.substring(0, 8)}...</div>
+            </td>
+            <td>
+              <div class="order-medicine">
+                <div class="medicine-name">${medicineName}</div>
+                <div class="medicine-quantity">Quantity: ${quantity}</div>
+              </div>
+            </td>
+            <td>
+              <div class="order-date">${date}</div>
+            </td>
+            <td>
+              <div class="order-total-price">₹${totalPrice}</div>
+            </td>
+            <td>
+              <span class="order-status ${statusClass}">${order.status}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+    
+    // Filter orders
+    function filterOrders(status) {
+      const rows = document.querySelectorAll("#ordersTableBody tr");
+      
+      if (status === 'all') {
+        rows.forEach(row => {
+          row.style.display = '';
+        });
+        return;
+      }
+      
+      rows.forEach(row => {
+        const orderStatus = row.querySelector('.order-status').textContent;
+        if (orderStatus === status) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+    
+    // Show empty orders state
+    function showEmptyOrdersState(message = "You haven't placed any orders yet.") {
+      const container = document.getElementById("ordersTableContainer");
+      
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-shopping-bag"></i>
+          </div>
+          <h3 class="empty-title">No Orders Found</h3>
+          <p class="empty-description">${message}</p>
+          <button class="empty-action" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            Browse Medicines
+          </button>
+        </div>
+      `;
+    }
+    
+    // View order details
+    function viewOrderDetails(orderId) {
+      // This would normally open a modal or navigate to a details page
+      showToast('info', 'Order Details', `Viewing details for order ${orderId}`);
+    }
+    
+    // Show toast notification
+    function showToast(type, title, message) {
+      const container = document.getElementById('toastContainer');
+      
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      
+      toast.innerHTML = `
+        <div class="toast-icon">
+          <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info-circle'}"></i>
+        </div>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      
+      container.appendChild(toast);
+      
+      // Remove toast after 3 seconds
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+    
+    // Log to debug panel
+    function logToDebug(message) {
+      const debugPanel = document.getElementById('debugPanel');
+      const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+      
+      const logEntry = document.createElement('div');
+      logEntry.textContent = `[${timestamp}] ${message}`;
+      
+      debugPanel.appendChild(logEntry);
+      debugPanel.scrollTop = debugPanel.scrollHeight;
+    }
+
+    function handleLogout() {
+      try {
+        // Clear all authentication data
+        localStorage.clear();
+        sessionStorage.clear();
+        
+        // Clear cookies with proper path and domain
+        document.cookie.split(";").forEach(function(c) { 
+          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
+
+        // Show success message
+        showToast('success', 'Logged Out', 'You have been successfully logged out');
+        
+        // Force redirect to index page
+        window.location.replace('/');
+      } catch (error) {
+        console.error('Logout error:', error);
+        // Force redirect even if there's an error
+        window.location.replace('/');
+      }
+    }
+  </script>
+</body>
+</html>

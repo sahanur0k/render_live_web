@@ -1,0 +1,4736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Urena Healthcare</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Base Styles */
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #004d99;
+      --secondary: #00a0e1;
+      --accent: #ff6b6b;
+      --white: #ffffff;
+      --black: #222222;
+      --gray: #f5f7fa;
+      --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--black);
+      background-color: #f9fafc;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* Navbar Styles */
+    nav {
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3e72;
+      gap: 8px;
+      margin-right: auto;
+      padding-left: 10px;
+      white-space: nowrap;
+    }
+
+    .logo img {
+      height: 45px;
+      width: auto;
+      margin-bottom: 5px;
+    }
+
+    .logo span {
+      font-size: 0.9rem;
+      font-weight: bolder;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px; /* Adjust this value based on your header height */
+    }
+
+    .nav-links a {
+      margin-left: 25px;
+      color: #333333;
+      font-weight: 500;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #2a5ea7;
+    }
+
+    .nav-links a.active {
+      color: #2a5ea7;
+    }
+
+    .nav-links a.btn-login {
+      background-color: #2a5ea7;
+      color: #ffffff;
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .nav-links a.btn-register {
+      background-color: transparent;
+      color: #2a5ea7;
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: 1px solid #2a5ea7;
+      cursor: pointer;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+
+    .mobile-menu-btn, #mobileMenuBtn {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      .mobile-menu-btn, #mobileMenuBtn {
+        display: flex !important;
+        align-items: center;
+      }
+      #mobileMenuBtn > span {
+        font-size: 2.4rem;
+        line-height: 1;
+      }
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 70px;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      padding: 20px;
+      transition: all 0.3s ease;
+      transform: translateY(-100%);
+      opacity: 0;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-menu a {
+      padding: 12px 0;
+      color: #333333;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+      display: block;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-menu a:hover {
+      color: #2a5ea7;
+    }
+
+    .mobile-menu a.active {
+      color: #2a5ea7;
+    }
+
+    .mobile-menu a.btn-login {
+      background-color: #2a5ea7;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+      border-bottom: none;
+    }
+
+    .mobile-menu a.btn-register {
+      background-color: transparent;
+      color: #2a5ea7;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+      border: 1px solid #2a5ea7;
+    }
+
+    /* Hero Section */
+    .video-hero {
+      position: relative;
+      height: 100vh;
+      min-height: 800px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Video Background */
+    .video-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      transform: scale(1.1);
+      transition: var(--transition);
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 30, 60, 0.9) 0%, rgba(0, 80, 120, 0.7) 100%);
+      z-index: 2;
+    }
+
+    /* Celebration Effects */
+    .celebration-effects {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      animation: floatParticle linear infinite;
+    }
+
+    .particle:nth-child(1) {
+      width: 8px;
+      height: 8px;
+      top: 20%;
+      left: 10%;
+      animation-duration: 15s;
+      animation-delay: 0s;
+    }
+
+    .particle:nth-child(2) {
+      width: 12px;
+      height: 12px;
+      top: 70%;
+      left: 80%;
+      animation-duration: 12s;
+      animation-delay: 2s;
+    }
+
+    .particle:nth-child(3) {
+      width: 6px;
+      height: 6px;
+      top: 40%;
+      left: 60%;
+      animation-duration: 18s;
+      animation-delay: 1s;
+    }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Floating Elements */
+    .floating-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .floating-pill {
+      position: absolute;
+      width: 40px;
+      height: 20px;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+      top: 30%;
+      right: 15%;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: 0 0 15px rgba(0, 102, 204, 0.5);
+    }
+
+    .floating-molecule {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      top: 60%;
+      left: 20%;
+      animation: float 8s ease-in-out infinite reverse;
+      box-shadow: 0 0 0 5px rgba(0, 160, 225, 0.2),
+                  0 0 0 10px rgba(0, 160, 225, 0.1);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(5deg); }
+    }
+
+    /* Content Styling */
+    .hero-content {
+      position: relative;
+      z-index: 4;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      text-align: center;
+      color: var(--white);
+    }
+
+    .content-wrapper {
+      transform: translateY(50px);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .company-logo {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .animate-char {
+      background-image: linear-gradient(
+          -225deg,
+          #ffffff 0%,
+          #e6f0ff 29%,
+          #b3d1ff 67%,
+          #ffffff 100%
+      );
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textShine 3s linear infinite;
+    }
+
+    @keyframes textShine {
+      to {
+          background-position: 200% center;
+      }
+    }
+
+    .logo-underline {
+      width: 100px;
+      height: 3px;
+      background: var(--accent);
+      margin: 0 auto 2rem;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: var(--transition);
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .animate-word {
+      display: inline-block;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .animate-word:nth-child(1) {
+      animation-delay: 0.3s;
+    }
+
+    .animate-word:nth-child(2) {
+      animation-delay: 0.6s;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      animation-delay: 0.9s;
+    }
+
+    /* CTA Buttons */
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: var(--transition);
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      animation-delay: 1.2s;
+    }
+
+    .cta-button.primary {
+      background-color: var(--primary);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(0, 102, 204, 0.4);
+    }
+
+    .cta-button svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.3s ease;
+    }
+
+    .cta-button.primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 102, 204, 0.5);
+    }
+
+    .cta-button.primary:hover svg {
+      transform: translateX(5px);
+    }
+
+    /* Scroll Indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 3rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+      animation-delay: 1.5s;
+    }
+
+    .mouse-scroll {
+      position: relative;
+      height: 50px;
+      width: 30px;
+    }
+
+    .mouse {
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      position: relative;
+    }
+
+    .wheel {
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 2px;
+      animation: scrollWheel 2s infinite;
+    }
+
+    .arrows {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      margin-top: 5px;
+    }
+
+    .arrow {
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid rgba(255, 255, 255, 0.7);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+      transform: rotate(45deg);
+      opacity: 0;
+      animation: scrollArrow 2s infinite;
+    }
+
+    .arrow:nth-child(1) { animation-delay: 0.1s; }
+    .arrow:nth-child(2) { animation-delay: 0.2s; }
+    .arrow:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes fadeInUp {
+      from {
+          opacity: 0;
+          transform: translateY(20px);
+      }
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+          opacity: 1;
+      }
+    }
+
+    @keyframes scrollWheel {
+      0%, 100% { transform: translate(-50%, 0); opacity: 1; }
+      50% { transform: translate(-50%, 5px); opacity: 0.5; }
+    }
+
+    @keyframes scrollArrow {
+      0%, 100% { opacity: 0; transform: rotate(45deg) translateY(0); }
+      50% { opacity: 1; transform: rotate(45deg) translateY(5px); }
+    }
+
+    /* Scroll Triggered Animations */
+    .video-hero.active .content-wrapper {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .video-hero.active .logo-underline {
+      transform: scaleX(1);
+    }
+
+    /* Collection Section */
+    .collection {
+      padding: 80px 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .collection-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      list-style: none;
+    }
+
+    .collection-card {
+      position: relative;
+      height: 350px;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px;
+      color: white;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .collection-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .collection-card .has-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .collection-card.has-before::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+      z-index: -1;
+    }
+
+    .collection-card:hover .has-bg-image {
+      transform: scale(1.1);
+    }
+
+    .card-title {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-link .span {
+      margin-right: 8px;
+    }
+
+    .btn-link:hover {
+      transform: translateX(5px);
+    }
+
+    /* Featured Products Section */
+    .featured-products {
+      padding: 80px 0;
+      background-color: #f0f5ff;
+    }
+
+    .featured-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .featured-title {
+      font-size: 2.2rem;
+      color: #2c3e50;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .featured-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--primary);
+    }
+
+    .view-all {
+      color: var(--primary);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .view-all:hover {
+      color: var(--primary-dark);
+    }
+
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .featured-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .featured-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .featured-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .featured-card:hover .featured-image img {
+      transform: scale(1.1);
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--accent);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .featured-content {
+      padding: 20px;
+    }
+
+    .featured-category {
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .featured-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .featured-description {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .featured-price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .featured-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .featured-stars {
+      color: #f39c12;
+    }
+
+    .featured-reviews {
+      font-size: 0.8rem;
+      color: #7f8c8d;
+    }
+
+    /* Bestsellers Section */
+    .bestsellers {
+      padding: 80px 0;
+      background-color: #f9fafc;
+    }
+
+    .bestsellers-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      color: #2c3e50;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--primary);
+    }
+
+    .view-all {
+      color: var(--primary);
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    .view-all:hover {
+      color: var(--primary-dark);
+    }
+
+    /* Product Card Styles - Updated to match user dashboard */
+    .bestsellers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 30px;
+    }
+
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s, transform 0.3s;
+      background-color: white;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      transform: translateY(-10px);
+    }
+
+    .product-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .product-image {
+      position: relative;
+      height: 150px;
+      overflow: hidden;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .product-card:hover .product-image img {
+      transform: scale(1.1);
+    }
+
+    .product-content {
+      padding: 10px 0;
+    }
+
+    .product-title {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+
+    .product-category {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #e74c3c;
+      margin: 10px 0;
+    }
+
+    .product-description {
+      margin: 5px 0;
+      color: #555;
+    }
+
+    .product-stock {
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      margin: 15px 0;
+    }
+
+    .quantity-control input {
+      width: 50px;
+      padding: 8px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 0 10px;
+    }
+
+    .quantity-btn {
+      background-color: #f1f1f1;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .quantity-btn:hover {
+      background-color: #ddd;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 4px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      margin-left: 10px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn-you {
+      background-color: #2a5ea7;   /* Your primary color */
+      color: #fff;
+    }
+
+    .btn-you:hover {
+      background-color: #004d99;   /* A darker shade for hover */
+    }
+
+    .btn-logout {
+      background-color: #ff6b6b;   /* Accent color for logout */
+      color: #fff;
+    }
+
+    .btn-logout:hover {
+      background-color: #d32f2f;   /* A darker red for hover */
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 10px;
+    }
+
+    .stars {
+      color: #f39c12;
+    }
+
+    .review-count {
+      font-size: 0.8rem;
+      color: #7f8c8d;
+    }
+
+    /* Latest Trends Section */
+    .latest-trends {
+      padding: 80px 0;
+      background-color: #f0f8ff;
+    }
+
+    .trends-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .trends-title {
+      font-size: 2.2rem;
+      color: #2c3e50;
+      position: relative;
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    .trends-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: var(--primary);
+    }
+
+    .trends-subtitle {
+      font-size: 1.1rem;
+      color: #7f8c8d;
+      max-width: 700px;
+      margin: 15px auto 0;
+    }
+
+    .trends-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .trend-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .trend-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .trend-image {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .trend-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .trend-card:hover .trend-image img {
+      transform: scale(1.1);
+    }
+
+    .trend-content {
+      padding: 20px;
+    }
+
+    .trend-category {
+      color: var(--primary);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .trend-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .trend-description {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .trend-link {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+
+    .trend-link:hover {
+      transform: translateX(5px);
+    }
+
+    .trend-link i {
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+
+    .trend-link:hover i {
+      transform: translateX(3px);
+    }
+
+    /* Banner Section */
+    .banner {
+      padding: 80px 0;
+    }
+
+    .banner-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      list-style: none;
+    }
+
+    .banner-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 40px;
+      color: white;
+      box-shadow: var(--shadow-md);
+      min-height: 300px;
+    }
+
+    .banner-card-1 {
+      background-color: #3498db;
+    }
+
+    .banner-card-2 {
+      background-color: #2ecc71;
+    }
+
+    .banner-card .has-bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+    }
+
+    .banner-card.has-before::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+      z-index: -1;
+    }
+
+    .banner-card:hover .has-bg-image {
+      transform: scale(1.1);
+    }
+
+    .banner-card .card-subtitle {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      background-color: white;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background-color: #f1f1f1;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Blog Section */
+    .blog-section {
+      padding: 80px 0;
+      background-color: #f9fafc;
+    }
+
+    .blog-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .blog-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .title-animate {
+      font-size: 2.8rem;
+      color: var(--text);
+      margin-bottom: 1rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      background-size: 200% auto;
+      animation: gradientShift 5s ease infinite;
+    }
+
+    .subtitle-animate {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 80px 0;
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* WhatsApp Button */
+        /* Floating WhatsApp Button */    .floating-whatsapp-btn {      position: fixed;      bottom: 30px;      right: 30px;      width: 60px;      height: 60px;      background-color: #25D366;      color: white;      border-radius: 50%;      display: flex;      justify-content: center;      align-items: center;      font-size: 30px;      box-shadow: 0 5px 15px rgba(0,0,0,0.2);      z-index: 999;      transition: all 0.3s ease;    }    .floating-whatsapp-btn:hover {      transform: scale(1.1);    }    /* Contact Section WhatsApp Button */    .whatsapp-btn {      background-color: #25D366;      display: inline-flex;      align-items: center;      padding: 10px 20px;      border-radius: 8px;      color: var(--white);      text-decoration: none;      font-weight: 500;      transition: transform 0.3s ease;    }
+
+    /* Footer */
+    footer {
+      background-color: #0d1b2a;
+      color: #ffffff;
+      padding: 40px 20px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer-box {
+      flex: 1 1 200px;
+      min-width: 200px;
+      margin-bottom: 20px;
+    }
+
+    .footer-box h4,
+    .footer-box h3 {
+      margin-bottom: 15px;
+    }
+
+    .footer-box p,
+    .footer-box li {
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .footer-box ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-box ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-box ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-box ul li a:hover {
+      color: white;
+    }
+
+    .footer-social {
+      margin-top: 15px;
+    }
+
+    .footer-social a {
+      font-size: 22px;
+      margin-right: 15px;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+
+    .footer-social a:hover {
+      transform: translateY(-3px);
+    }
+
+    /* User Dashboard Link */
+    .user-dashboard-link {
+      display: none;
+    }
+
+    .admin-dashboard-link {
+      display: none;
+    }
+
+    /* Full Post View */
+    .full-post-view {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 40px;
+    }
+
+    .full-post-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .collection-list, .banner-list, .trends-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .logo span {
+        display: none;
+      }
+
+      .featured-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn, #mobileMenuBtn {
+        display: flex !important;
+        align-items: center;
+      }
+      
+      .company-logo {
+        font-size: 2.5rem;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .bestsellers-header, .featured-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .section-title::after, .featured-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      
+      .footer-container {
+        flex-direction: column;
+        gap: 30px;
+      }
+      
+      .footer-box {
+        flex: 1 1 100%;
+        min-width: 100%;
+      }
+
+      .trends-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+          text-align: center;
+          padding-top: 20px;
+          margin-top: 20px;
+          border-top: 1px solid #444;
+          font-size: 14px;
+          color: #ccc;
+        }
+    
+        .footer-bottom a {
+          color: #ccc;
+          text-decoration: none;
+          margin: 0 5px;
+          transition: color 0.3s;
+        }
+    
+        .footer-bottom a:hover {
+          color: white;
+        }
+    }
+
+    @media (max-width: 480px) {
+      .video-hero {
+        min-height: 700px;
+      }
+      
+      .company-logo {
+        font-size: 2rem;
+      }
+      
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      
+      .scroll-hint {
+        bottom: 2rem;
+      }
+      
+      .cta-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .footer-bottom {
+        padding: 15px 0;
+        font-size: 14px;
+      }
+      
+      .footer-bottom a {
+        display: block;
+        margin: 5px 0;
+      }
+
+      .featured-grid {
+        grid-template-columns: 1fr;
+      }
+       }
+    
+        @media screen and (max-width: 480px) {
+          .footer-bottom {
+            font-size: 12px;
+          }
+          
+          .footer-bottom a {
+            display: block;
+            margin: 5px 0;
+          }
+    }
+
+    /* Footer Bottom Styles */
+    .footer-bottom {
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ccc;
+    }
+
+    .footer-bottom a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+
+    .footer-bottom a:hover {
+      color: white;
+    }
+
+    @media (max-width: 480px) {
+      .footer-bottom {
+        padding: 15px 0;
+        font-size: 14px;
+      }
+      
+      .footer-bottom a {
+        display: block;
+        margin: 5px 0;
+      }
+    }
+
+    /* Distributors Section */
+    .distributors-section {
+        padding: 120px 0 80px 0;
+        background-color: var(--gray-bg);
+        position: relative;
+    }
+
+    .distributors-section .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+        position: relative;
+    }
+
+    .distributors-section .section-title {
+        font-size: 2.8rem;
+        color: #0066cc;
+        margin-bottom: 40px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        display: block;
+    }
+
+    .distributors-section .section-subtitle {
+        font-size: 1.2rem;
+        color: #455a64;
+        max-width: 800px;
+        margin: 0 auto 40px;
+        line-height: 1.6;
+        display: block;
+        position: relative;
+    }
+
+    .distributors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+        .distributors-section {
+            padding: 80px 0 60px 0;
+        }
+        
+        .distributors-section .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .distributors-section .section-subtitle {
+            font-size: 1rem;
+            margin: 0 auto 30px;
+        }
+    }
+
+    /* ... existing styles ... */
+    #mobileUserIcon {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      #mobileUserIcon {
+        display: inline-block;
+      }
+    }
+
+    /* ... existing styles ... */
+    .video-hero .hero-content {
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .video-hero.scrolled .hero-content {
+      opacity: 0.2;
+      transform: translateY(-80px) scale(0.98);
+      pointer-events: none;
+    }
+  </style>
+  <!-- REMOVE the following script block to avoid duplicate/conflicting mobile menu logic -->
+  <!--
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add scrollToTop function
+      window.scrollToTop = function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      };
+      // ... rest of the script ...
+      // Handle mobile menu
+      const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? 
+          '<span>✕</span>' : 
+          '<span>☰</span>';
+      });
+      // ... rest of the script ...
+    });
+  </script>
+  -->
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-container">
+            <a href="#" onclick="scrollToTop()" class="logo">
+              <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747840644/WhatsApp_Image_2025-05-21_at_20.44.32_czm5pi.jpg" alt="Urena Healthcare Logo">
+              <span>Urena Healthcare Pvt. Ltd.</span>
+              <div style="font-size:0.85rem; font-weight:400; color:#2a5ea7; line-height:1; margin-top:2px; margin-left:4px;">"An Arena Of Healthy Life"</div>
+            </a>            <div class="nav-links" id="navLinks">        <a href="#" onclick="scrollToTop()" class="active">Home</a>
+        <a href="#about">About Us</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+        <a href="/Sign-in" class="btn-login" id="loginBtn">Login</a>
+        <a href="/register" class="btn-register" id="registerBtn">Register</a>
+        <a href="/user" class="btn-login" id="youBtn" style="display:none;"><i class="fas fa-user" style="margin-right:8px;"></i>You</a>
+        <a href="#" class="btn-register" id="logoutBtn" style="display:none;">Logout <i class="fas fa-sign-out-alt" style="margin-left:8px;"></i></a>
+      </div>
+      
+      <div class="mobile-menu-btn" id="mobileMenuBtnContainer">
+        <a href="/user" id="mobileUserIcon" style="margin-right: 10px;margin-top: 6px; font-size: 1.5rem; color: #2a5ea7;"><i class="fas fa-user"></i></a>
+        <div id="mobileMenuBtn">
+          <span>☰</span>
+        </div>
+      </div> 
+    </div>
+    
+        <!-- Mobile Menu -->    
+        <div class="mobile-menu" id="mobileMenu">    
+      <a href="#" onclick="scrollToTop()" class="active">Home</a>
+      <a href="#about">About Us</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+      <a href="/Sign-in" class="btn-login" id="mobileLoginBtn">Login</a>
+      <a href="/register" class="btn-register" id="mobileRegisterBtn">Register</a>
+      <a href="/user" id="mobileUserIcon" style="margin-right: 10px; font-size: 1.5rem; color: #2a5ea7;"><i class="fas fa-user"></i></a>
+      <a href="#" class="btn-register" id="mobileLogoutBtn" style="display:none;">Logout <i class="fas fa-sign-out-alt" style="margin-left:8px;"></i></a>
+    </div>
+  </nav>
+
+  <!-- Hero Slider -->
+  <div class="video-hero">
+    <!-- Video Background with Overlay -->
+    <div class="video-container">
+      <video autoplay muted loop playsinline preload="auto">
+        <source src="https://res.cloudinary.com/dalupyned/video/upload/v1747653959/3214527-uhd_2560_1440_25fps_zr7ao1.mp4" type="video/mp4">
+      </video>
+      <div class="video-overlay"></div>
+      <div class="celebration-effects">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+    </div>
+    
+    <!-- Animated Elements -->
+    <div class="floating-elements">
+      <div class="floating-pill"></div>
+      <div class="floating-molecule"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="hero-content">
+      <div class="content-wrapper">
+        
+        </div>
+        
+        <h2 class="hero-title">
+          <span class="title-line animate-word">Innovating Healthcare</span>
+          <span class="title-line animate-word">for a Better Tomorrow</span>
+        </h2>
+        
+        <p class="hero-subtitle animate-subtitle">Discover our cutting-edge pharmaceutical solutions that improve lives worldwide.</p>
+        
+        <div class="cta-buttons">
+          <a href="#" id="exploreProductsBtn" class="cta-button primary animate-button">
+            <span>Explore Products</span>
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-hint">
+      <div class="mouse-scroll">
+        <div class="mouse">
+          <div class="wheel"></div>
+        </div>
+        <div class="arrows">
+          <span class="arrow"></span>
+          <span class="arrow"></span>
+          <span class="arrow"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Featured Products Section -->
+<section class="featured-products" id="featured-products">
+  <div class="container">
+    <div class="featured-header">
+      <h2 class="featured-title">Featured Products</h2>
+    </div>
+
+    <div class="featured-grid">
+             <!-- TenjoFit -->
+       <div class="featured-card" data-product="tenjofit">
+        <div class="featured-image">
+          <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486215/WhatsApp_Image_2025-05-17_at_18.18.43_phqq7p.jpg" alt="TenjoFit">
+          <div class="featured-badge">Featured</div>
+        </div>
+        <div class="featured-content">
+          <div class="featured-category">Health Supplements</div>
+          <h3 class="featured-name">TenjoFit</h3>
+          <p class="featured-description">Collagen Type I, Undenatured Collagen Type II, Calcium Carbonate Vitamin K2-7, Cholecalciferol, Vitamin C, Magnesium Oxide, Zinc Oxide, Magnesium Sulphate, Copper Sulphate & Hyaluronic Acid Tablets.</p>
+          <div class="featured-price">MRP: 450/-</div>
+          <div class="featured-rating">
+            <div class="featured-stars">★★★★★</div>
+            <span class="featured-reviews">(170 reviews)</span>
+          </div>
+        </div>
+      </div>
+
+             <!-- Bonura-Max -->
+       <div class="featured-card" data-product="bonura-max">
+        <div class="featured-image">
+          <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486635/WhatsApp_Image_2025-05-17_at_18.25.38_t3lwsd.jpg" alt="Bonura-Max">
+          <div class="featured-badge">Best Seller</div>
+        </div>
+        <div class="featured-content">
+          <div class="featured-category">Bone Health</div>
+          <h3 class="featured-name">Bonura-Max</h3>
+          <p class="featured-description">Calcitriol, Calcium Carbonate, Zinc Magnesium, Vitamin K2-7, Vitamin B12 & L-Methyl Folate Softgel Capsules</p>
+          <div class="featured-price">MRP: 375/-</div>
+          <div class="featured-rating">
+            <div class="featured-stars">★★★★★</div>
+            <span class="featured-reviews">(142 reviews)</span>
+          </div>
+        </div>
+      </div>
+
+             <!-- Uracid-D -->
+       <div class="featured-card" data-product="uracid-d">
+        <div class="featured-image">
+          <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486634/WhatsApp_Image_2025-05-17_at_18.25.38_1_w4k9hb.jpg" alt="Uracid-D">
+          <div class="featured-badge">Popular</div>
+        </div>
+        <div class="featured-content">
+          <div class="featured-category">Digestive Health</div>
+          <h3 class="featured-name">Uracid-D</h3>
+          <p class="featured-description">Pantoprazole Gastro-resistant and Domperidone Prolonged-release Capsules IP.</p>
+          <div class="featured-price">MRP: 185/-</div>
+          <div class="featured-rating">
+            <div class="featured-stars">★★★★★</div>
+            <span class="featured-reviews">(115 reviews)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Navigation Scripts -->
+<script>
+  // Check login status
+  async function checkLoginStatus() {
+    try {
+      // Check localStorage first
+      const localToken = localStorage.getItem('token');
+      if (localToken) {
+        // Verify token with backend
+        const response = await fetch('/api/order/verify-token', {
+          headers: {
+            'Authorization': `Bearer ${localToken}`
+          }
+        });
+        
+        if (response.ok) {
+          return true;
+        } else {
+          // Token is invalid, clear storage
+          localStorage.clear();
+          document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          });
+          return false;
+        }
+      }
+      
+      // Then check cookies
+      const cookieToken = document.cookie.split('; ').find(row => row.startsWith('token='));
+      if (cookieToken) {
+        const token = cookieToken.split('=')[1];
+        // Verify token with backend
+        const response = await fetch('/api/order/verify-token', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (response.ok) {
+          // If found in cookie but not in localStorage, sync them
+          localStorage.setItem('token', token);
+          return true;
+        } else {
+          // Token is invalid, clear storage
+          localStorage.clear();
+          document.cookie.split(";").forEach(function(c) { 
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          });
+          return false;
+        }
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('Error checking login status:', error);
+      return false;
+    }
+  }
+
+  // Handle product click
+  async function navigateToProduct(productSlug) {
+    if (!(await checkLoginStatus())) {
+      window.location.href = "/sign-in";
+    } else {
+      window.location.href = "/user";  // Redirect to user dashboard
+    }
+  }
+
+  // Handle view all products click
+  async function navigateToProducts() {
+    if (!(await checkLoginStatus())) {
+      window.location.href = "/sign-in";
+    } else {
+      window.location.href = "/user";
+    }
+  }
+
+  // Remove any existing click handlers
+  document.querySelectorAll('.featured-card').forEach(card => {
+    card.removeAttribute('onclick');
+  });
+
+  // Add click event listeners after DOM loads
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add click listeners to all product cards
+    document.querySelectorAll('.featured-card').forEach(card => {
+      card.onclick = async function(e) {
+        e.preventDefault();
+        await navigateToProduct();
+      };
+    });
+
+    // Add click listener to view all button
+    document.querySelector('.view-all').onclick = async function(e) {
+      e.preventDefault();
+      await navigateToProducts();
+    };
+  });
+
+  const exploreBtn = document.getElementById('exploreProductsBtn');
+  const role = localStorage.getItem('role');
+  if (exploreBtn) {
+    exploreBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (role === 'admin') {
+        window.location.href = '/admin';
+      } else if (role) {
+        window.location.href = '/user';
+      } else {
+        window.location.href = '/Sign-in';
+      }
+    });
+  }
+
+  // Featured product cards
+  document.querySelectorAll('.featured-card').forEach(card => {
+    card.onclick = function(e) {
+      e.preventDefault();
+      if (role === 'admin') {
+        window.location.href = '/admin';
+      } else if (role) {
+        window.location.href = '/user';
+      } else {
+        window.location.href = '/Sign-in';
+      }
+    };
+  });
+</script>
+
+
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urena Healthcare - About Us</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+
+    <style>
+        :root {
+            --primary-blue: #0066cc;
+            --pharma-blue: #1a73e8;
+            --pharma-green: #00897b;
+            --accent-green: #00bfa5;
+            --light-green: #e0f7fa;
+            --pharma-teal: #00acc1;
+            --dark-blue: #0d47a1;
+            --light-gray: #f5f7fa;
+            --gray-bg: #f9fbfd;
+            --text-dark: #263238;
+            --text-medium: #455a64;
+            --text-light: #607d8b;
+            --white: #ffffff;
+            --box-shadow: 0 10px 30px rgba(0, 107, 179, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.7;
+            color: var(--text-medium);
+            background-color: var(--white);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* About Section */
+        .about {
+            padding: 120px 0;
+            background-color: var(--gray-bg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            color: #0066cc;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--pharma-blue), var(--pharma-teal));
+            border-radius: 2px;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .divider-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pharma-teal), transparent);
+        }
+
+        .divider-icon {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--pharma-teal);
+            animation: pulse 2s infinite;
+        }
+
+        /* About Content Layout */
+        .about-content {
+            display: flex;
+            align-items: stretch;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+
+        .about-img, .about-text {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-wrapper {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: var(--transition);
+            height: 100%;
+            min-height: 400px;
+        }
+
+        .about-img:hover .image-wrapper {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.3), rgba(0, 172, 193, 0.3));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .about-img:hover .image-overlay {
+            opacity: 1;
+        }
+
+        .floating-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--white);
+            color: var(--pharma-blue);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(0);
+            transition: var(--transition);
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-badge i {
+            color: var(--accent-green);
+        }
+
+        .about-img:hover .floating-badge {
+            transform: translateY(-10px);
+        }
+
+        .text-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .innovate-title {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .title-words {
+            display: inline-block;
+        }
+
+        .word {
+            display: inline-block;
+            position: relative;
+            margin-right: 8px;
+        }
+
+        .word::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-color: rgba(0, 172, 193, 0.3);
+            z-index: -1;
+            transition: var(--transition);
+        }
+
+        .word:hover::after {
+            height: 12px;
+            background-color: rgba(0, 172, 193, 0.5);
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text-medium);
+            position: relative;
+            padding-left: 20px;
+            border-left: 3px solid var(--pharma-teal);
+        }
+
+        .highlight {
+            color: var(--primary-blue);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-green);
+            z-index: -1;
+        }
+
+        .expandable-section {
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .expandable-section:hover {
+            box-shadow: 0 8px 25px rgba(0, 107, 179, 0.1);
+        }
+
+        .expandable-header {
+            background: linear-gradient(135deg, var(--pharma-blue), var(--pharma-teal));
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .expandable-header:hover {
+            background: linear-gradient(135deg, var(--dark-blue), var(--pharma-teal));
+        }
+
+        .expandable-header h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .expand-icon {
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .expandable-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            background-color: var(--white);
+        }
+
+        .expandable-section.active .expandable-content {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .expandable-section.active .expand-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Mission Values Section */
+        .mission-values {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 107, 179, 0.1);
+        }
+
+        .values-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .values-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .value-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 107, 179, 0.15);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--pharma-blue), var(--pharma-teal));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: var(--transition);
+        }
+
+        .value-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .value-card h4 {
+            font-size: 1.2rem;
+            margin: 20px 0 15px;
+            color: var(--text-dark);
+        }
+
+        .value-card p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            flex-grow: 1;
+        }
+
+        .card-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--pharma-blue), var(--pharma-teal));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .value-card:hover .card-wave {
+            transform: scaleX(1);
+            height: 100%;
+            opacity: 0.05;
+        }
+
+        /* Particles animation */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(0, 172, 193, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        .particle:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            top: 20%;
+            left: 10%;
+            animation-duration: 20s;
+        }
+
+        .particle:nth-child(2) {
+            width: 15px;
+            height: 15px;
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: 2s;
+        }
+
+        .particle:nth-child(3) {
+            width: 25px;
+            height: 25px;
+            top: 80%;
+            left: 30%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+
+        .particle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            top: 40%;
+            left: 50%;
+            animation-duration: 22s;
+            animation-delay: 3s;
+        }
+
+        .particle:nth-child(5) {
+            width: 30px;
+            height: 30px;
+            top: 30%;
+            left: 70%;
+            animation-duration: 17s;
+            animation-delay: 4s;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .image-wrapper {
+                min-height: 300px;
+            }
+            
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+            }
+            
+            .innovate-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- About Us Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">About Urena Healthcare Pvt. Ltd.</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon">⚕️</div>
+                    <div class="divider-line"></div>
+                </div>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-img" data-aos="fade-right" data-aos-duration="800">
+                    <div class="image-wrapper">
+                        <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747841580/WhatsApp_Image_2025-05-21_at_21.02.05_jfh07v.jpg" alt="Urena Healthcare Lab">
+                        <div class="image-overlay"></div>
+                        <div class="floating-badge">
+                            <i class="fas fa-certificate"></i> ISO Certified
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-text" data-aos="fade-left" data-aos-duration="800">
+                    <div class="text-content">
+                        <h2 class="innovate-title">
+                            <span class="title-words">
+                                <span class="word">Innovating</span>
+                                <span class="word">for a</span>
+                                <span class="word">Healthier</span>
+                                <span class="word">Tomorrow</span>
+                            </span>
+                        </h2>
+                        
+                        <p class="intro-text">At <strong class="highlight">Urena Healthcare</strong>, we are a patient-centric pharmaceutical company committed to transforming lives through cutting-edge medicines and advanced healthcare solutions. Our passion for improving human health drives us to make a meaningful impact on patients, families, and communities around the globe.</p>
+                    </div>
+                    
+                    <div class="expandable-section">
+                        <div class="expandable-header">
+                            <h3>Our Company</h3>
+                            <div class="expand-icon">+</div>
+                        </div>
+                        <div class="expandable-content">
+                            <p>Since our inception, our mission has been simple yet powerful — to empower individuals to lead healthier, happier lives. With a strong focus on innovation, quality, and patient well-being, we continuously strive to break new ground in medical science.</p>
+                            <p>Every product and service we offer is backed by rigorous research, a commitment to excellence, and a belief that access to quality healthcare is a right, not a privilege.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-values">
+                <h3 class="values-title">Our Pillars of Promise</h3>
+                <p class="values-subtitle">Six foundational principles that guide our work</p>
+                
+                <div class="values-grid">
+                    <!-- Row 1 -->
+                    <div class="value-card" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="card-icon pulse">
+                            <i class="fas fa-microscope"></i>
+                        </div>
+                        <h4>Research Excellence</h4>
+                        <p>Cutting-edge pharmaceutical research with uncompromising quality standards and safety protocols.</p>
+                        <div class="card-wave"></div>
+                    </div>
+                    
+                    <div class="value-card" data-aos="zoom-in" data-aos-delay="150">
+                        <div class="card-icon pulse">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <h4>Affordable Solutions</h4>
+                        <p>Cost-effective medicines without compromising on quality or efficacy for all economic segments.</p>
+                        <div class="card-wave"></div>
+                    </div>
+                    
+                    <div class="value-card" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="card-icon pulse">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h4>Global Availability</h4>
+                        <p>Extensive distribution network ensuring our products reach every corner of the world.</p>
+                        <div class="card-wave"></div>
+                    </div>
+                    
+                    <!-- Row 2 -->
+                    <div class="value-card" data-aos="zoom-in" data-aos-delay="250">
+                        <div class="card-icon pulse">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h4>Innovation</h4>
+                        <p>Continuous development of novel drug formulations and delivery mechanisms.</p>
+                        <div class="card-wave"></div>
+                    </div>
+                    
+                    <div class="value-card" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="card-icon pulse">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h4>Patient-Centric</h4>
+                        <p>Tailored healthcare solutions designed around patient needs and outcomes.</p>
+                        <div class="card-wave"></div>
+                    </div>
+                    
+                    <div class="value-card" data-aos="zoom-in" data-aos-delay="350">
+                        <div class="card-icon pulse">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h4>Sustainability</h4>
+                        <p>Environmentally responsible manufacturing and business practices.</p>
+                        <div class="card-wave"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating particles for background effect -->
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                once: true
+            });
+            
+            // Expandable sections functionality
+            const expandableHeaders = document.querySelectorAll('.expandable-header');
+            expandableHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    header.parentElement.classList.toggle('active');
+                });
+            });
+            
+            // Word hover effects
+            const words = document.querySelectorAll('.word');
+            words.forEach((word, index) => {
+                word.style.transitionDelay = `${index * 50}ms`;
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+<!-- Add this before the closing </div> of .container -->
+<section class="certifications-section">
+    <div class="certifications-container">
+      <h3 class="certifications-title">Our Certifications & Accreditations</h3>
+      <p class="certifications-subtitle">Recognized by leading global authorities</p>
+      
+      <div class="certifications-grid">
+        <!-- ISO Certification -->
+        <div class="certification-card" data-aos="flip-left">
+          <div class="certification-logo">
+            <div class="logo-container">
+              <div class="logo-circle">
+                <svg class="iso-logo" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="#1a73e8" stroke-width="8"/>
+                  <text x="50" y="50" font-size="30" font-weight="700" fill="#1a73e8" text-anchor="middle" dominant-baseline="middle">ISO</text>
+                  <text x="50" y="70" font-size="12" font-weight="600" fill="#1a73e8" text-anchor="middle">9001:2015</text>
+                </svg>
+              </div>
+              <div class="logo-shine"></div>
+            </div>
+            <div class="certification-tooltip">
+              <h4>ISO 9001:2015 Certified</h4>
+              <p>Quality Management System</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- FSSAI Certification -->
+        <div class="certification-card" data-aos="flip-left" data-aos-delay="100">
+          <div class="certification-logo">
+            <div class="logo-container">
+              <div class="logo-circle">
+                <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653394/images_zxye9b.jpg" 
+                     alt="FSSAI" 
+                     class="official-logo">
+              </div>
+              <div class="logo-pulse"></div>
+            </div>
+            <div class="certification-tooltip">
+              <h4>FSSAI Certified</h4>
+              <p>Food Safety and Standards Authority of India</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- WHO  Certification -->
+        <div class="certification-card" data-aos="flip-left" data-aos-delay="200">
+          <div class="certification-logo">
+            <div class="logo-container">
+              <div class="logo-circle">
+                <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653394/who_uujbas.svg" 
+                     alt="WHO " 
+                     class="official-logo">
+              </div>
+              <div class="logo-glow"></div>
+            </div>
+            <div class="certification-tooltip">
+              <h4>WHO  Certified</h4>
+              <p>World Health Organization 
+            </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- GMP Certification -->
+        <div class="certification-card" data-aos="flip-left" data-aos-delay="300">
+          <div class="certification-logo">
+            <div class="logo-container">
+              <div class="logo-circle">
+                <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653392/0c42438b9ee32255e18497d14d024547_ouns6w.jpg" 
+                     alt="GMP" 
+                     class="official-logo">
+              </div>
+              <div class="logo-sparkle"></div>
+            </div>
+            <div class="certification-tooltip">
+              <h4>GMP Certified</h4>
+              <p>Good Manufacturing Practices</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <style>
+
+  /* Isolated Certifications Section - Won't affect other elements */
+  .certifications-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #f8fbfe 0%, #e6f0fa 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .certifications-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .certifications-title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #0d47a1;
+    position: relative;
+  }
+  
+  .certifications-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #1a73e8, #00acc1);
+    border-radius: 2px;
+  }
+  
+  .certifications-subtitle {
+    text-align: center;
+    color: #607d8b;
+    margin-bottom: 50px;
+    font-size: 1.1rem;
+  }
+  
+  .certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .certification-card {
+    perspective: 1000px;
+  }
+  
+  .certification-logo {
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  .logo-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .logo-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 15px;
+  }
+  
+  .official-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: all 0.4s ease;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .certification-card:hover .official-logo {
+    transform: scale(1.05);
+  }
+  
+  /* Animation Elements */
+  .logo-shine, .logo-pulse, .logo-glow, .logo-sparkle {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  
+  /* ISO Shine Effect */
+  .logo-shine {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0;
+    animation: cert-shine 3s infinite;
+  }
+  
+  /* FSSAI Pulse Effect */
+  .logo-pulse {
+    width: 120px;
+    height: 120px;
+    border: 2px solid rgba(46, 125, 50, 0.3);
+    animation: cert-pulse 2s infinite;
+  }
+  
+  /* WHO Glow Effect */
+  .logo-glow {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0 30px rgba(0, 147, 213, 0.4);
+    opacity: 0;
+    animation: cert-glow 2s infinite alternate;
+  }
+  
+  /* GMP Sparkle Effect */
+  .logo-sparkle {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(0, 137, 123, 0.2) 0%, rgba(0, 137, 123, 0) 70%);
+    opacity: 0;
+    animation: cert-sparkle 2s infinite;
+  }
+  
+  .certification-tooltip {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    width: 100%;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 10;
+  }
+  
+  .certification-card:hover .certification-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    bottom: -70px;
+  }
+  
+  .certification-tooltip h4 {
+    font-size: 1rem;
+    color: #0d47a1;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  
+  .certification-tooltip p {
+    font-size: 0.8rem;
+    color: #607d8b;
+    text-align: center;
+  }
+  
+  /* Unique Animation Names to Prevent Conflicts */
+  @keyframes cert-shine {
+    0% { transform: translate(-30%, -30%); opacity: 0; }
+    50% { opacity: 0.3; }
+    100% { transform: translate(30%, 30%); opacity: 0; }
+  }
+  
+  @keyframes cert-pulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    70% { transform: scale(1.2); opacity: 0; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+  
+  @keyframes cert-glow {
+    from { opacity: 0; }
+    to { opacity: 0.7; }
+  }
+  
+  @keyframes cert-sparkle {
+    0% { transform: scale(1); opacity: 0; }
+    50% { opacity: 0.4; }
+    100% { transform: scale(1.2); opacity: 0; }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .certifications-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .certifications-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .certification-logo {
+      height: 150px;
+    }
+    
+    .logo-container {
+      width: 120px;
+      height: 120px;
+    }
+    
+    .logo-circle {
+      width: 100px;
+      height: 100px;
+    }
+    
+    .logo-shine,
+    .logo-pulse, 
+    .logo-glow,
+    .logo-sparkle {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  </style>
+
+ <!-- Add this section after other sections -->
+<section class="distributors-section">    <div class="container">        <div class="section-header">            <h2 class="section-title">OUR TRUSTED DISTRIBUTORS</h2>            <div class="section-divider">                <div class="divider-line"></div>                <div class="divider-icon"><i class="fas fa-truck"></i></div>                <div class="divider-line"></div>            </div>            <p class="section-subtitle">Our network of reliable distribution partners across West Bengal</p>        </div>
+        
+        <div class="distributors-grid">
+            <!-- Distributor 1 -->
+            <div class="distributor-card" data-aos="fade-up">
+                <div class="distributor-header">
+                    <h3> ANJALI DRUGS</h3>
+                    <div class="pharma-icon">
+                        <i class="fas fa-pills"></i>
+                    </div>
+                </div>
+                <div class="distributor-body">
+                    <div class="distributor-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>346.Κ.Β.Μ. CHAKDAHA, NADIA (WB) 19-WEST BENGAL 741222</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <p>7407600465</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="distributor-footer">
+                    <span class="tag">Pharmaceuticals</span>
+                    <span class="tag">Retail & Wholesale</span>
+                </div>
+            </div>
+            
+            <!-- Distributor 2 -->
+            <div class="distributor-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="distributor-header">
+                    <h3> R. N. MEDICINE</h3>
+                    <div class="pharma-icon">
+                        <i class="fas fa-clinic-medical"></i>
+                    </div>
+                </div>
+                <div class="distributor-body">
+                    <div class="distributor-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>MEDICINE COMPLEX, BARUIPARA, KALNA, BARDHAMAN (WB) 19-WEST BENGAL 713409</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <p>9800519048</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="distributor-footer">
+                    <span class="tag">Pharmaceuticals</span>
+                    <span class="tag">Hospital Supply</span>
+                </div>
+            </div>
+            
+            <!-- Distributor 3 -->
+            <div class="distributor-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="distributor-header">
+                    <h3>Tranib Drug House</h3>
+                    <div class="pharma-icon">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                    </div>
+                </div>
+                <div class="distributor-body">
+                    <div class="distributor-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Vibekanandanagar, Pandua, Pandua, Hooghly-712149. (W.B.)</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <p>+91 8642842880</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="distributor-footer">
+                    <span class="tag">Pharmaceuticals</span>
+                    <span class="tag">Wholesale</span>
+                </div>
+            </div>
+            
+            <!-- Distributor 4 -->
+            <div class="distributor-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="distributor-header">
+                    <h3>GHOSH TRADERS</h3>
+                    <div class="pharma-icon">
+                        <i class="fas fa-store-alt"></i>
+                    </div>
+                </div>
+                <div class="distributor-body">
+                    <div class="distributor-info">
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>35, NEMAI CH GHOSH SARANI KRISHNAGAR, NADIA, 741101, West Bengal</p>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone"></i>
+                            <p>7551892209</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="distributor-footer">
+                    <span class="tag">Medical Supplies</span>
+                    <span class="tag">Retail</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="become-distributor" data-aos="fade-up">
+            <h3>Want to become a distributor?</h3>
+            <p>Join our network of trusted pharmaceutical partners across India</p>
+            <a href="#contact" class="distributor-btn">
+                Apply Now <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Distributors Section Styles */
+.distributors-section {
+    padding: 80px 0;
+    background-color: var(--gray-bg);
+    position: relative;
+}
+
+.section-subtitle {
+    
+    text-align: center;
+    color: var(--text-light);
+    margin-top: 15px;
+    font-size: 1.1rem;
+}
+
+.distributors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin: 50px 0;
+}
+
+.distributor-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.distributor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 107, 179, 0.15);
+}
+
+.distributor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    background: linear-gradient(135deg, var(--pharma-blue), var(--pharma-teal));
+    color: white;
+}
+
+.distributor-header h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.pharma-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.distributor-body {
+    padding: 25px;
+}
+
+.distributor-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.info-item i {
+    color: var(--pharma-teal);
+    margin-top: 3px;
+    font-size: 1.1rem;
+}
+
+.info-item p {
+    margin: 0;
+    color: var(--text-medium);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.distributor-footer {
+    padding: 15px 25px;
+    background-color: var(--light-gray);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background-color: var(--white);
+    color: var(--pharma-blue);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.become-distributor {
+    text-align: center;
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.become-distributor h3 {
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.become-distributor p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 1rem;
+}
+
+.distributor-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--pharma-blue), var(--pharma-teal));
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.distributor-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 107, 179, 0.2);
+}
+
+.distributor-btn i {
+    transition: var(--transition);
+}
+
+.distributor-btn:hover i {
+    transform: translateX(5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .distributors-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .become-distributor {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .distributor-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .distributor-body {
+        padding: 20px;
+    }
+}
+</style>
+
+<!-- Isolated Blog Section with Detailed Content -->
+<div id="isolated-blog-section">
+  <section class="blog-section" id="blog">
+    <div class="blog-container">
+      <div class="blog-header">
+        <h2 class="blog-title">Latest Healthcare Insights</h2>
+        <p class="blog-subtitle">Stay informed with our latest articles and research</p>
+      </div>
+            
+      <div class="blog-grid">
+        <!-- Blog Post 1 -->
+        <div class="blog-card" data-post-id="1">
+          <div class="blog-image">
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747646367/WhatsApp_Image_2025-05-19_at_14.28.17_fitlo6.jpg" alt="Telemedicine" loading="lazy">
+            <div class="blog-date">
+              <span class="day">20</span>
+              <span class="month">MAY</span>
+            </div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-category"> Health</div>
+            <h3 class="blog-post-title">Rebuild, Restore, and Revive Your Joints with TenjoFit Tablets</h3>
+            <p class="blog-excerpt">In today's fast-moving world, joint pain, stiffness, and mobility issues affect people of all ages. Whether you're a fitness enthusiast, a professional managing long hours, or someone dealing with age-related joint challenges, TenjoFit is here to help you move freely and confidently.
+...</p>
+            <div class="blog-meta">
+              <span><i class="fas fa-clock"></i> 5 min read</span>
+              <span><i class="fas fa-comment"></i> 12 comments</span>
+            </div>
+            <button class="blog-read-more-btn">Read Full Article</button>
+          </div>
+        </div>
+        
+        <!-- Blog Post 2 -->
+        <div class="blog-card" data-post-id="2">
+          <div class="blog-image">
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747646367/WhatsApp_Image_2025-05-19_at_14.28.17_1_p3ncbg.jpg" alt="Personalized Medicine" loading="lazy">
+            <div class="blog-date">
+              <span class="day">21</span>
+              <span class="month">MAY</span>
+            </div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-category">Health</div>
+            <h3 class="blog-post-title">Bonura-Max: Stronger Bones, Better Mobility</h3>
+            <p class="blog-excerpt">Bone health is a cornerstone of an active, pain-free life — and as we age or face daily physical strain, it becomes even more critical. That's why Urena Pharma brings you Bonura-Max Softgel Capsules, a scientifically developed supplement to strengthen bones, support joint function, and improve overall skeletal wellness...</p>
+            <div class="blog-meta">
+              <span><i class="fas fa-clock"></i> 7 min read</span>
+              <span><i class="fas fa-comment"></i> 8 comments</span>
+            </div>
+            <button class="blog-read-more-btn">Read Full Article</button>
+          </div>
+        </div>
+        
+        <!-- Blog Post 3 -->
+        <div class="blog-card" data-post-id="3">
+          <div class="blog-image">
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747646366/WhatsApp_Image_2025-05-19_at_14.47.13_xjaeb9.jpg" alt="AI in Healthcare" loading="lazy">
+            <div class="blog-date">
+              <span class="day">21</span>
+              <span class="month">MAY</span>
+            </div>
+          </div>
+          <div class="blog-content">
+            <div class="blog-category">Health</div>
+            <h3 class="blog-post-title">Uracid-D: Fast Relief from Acidity, Bloating & Gastric Discomforts</h3>
+            <p class="blog-excerpt"> Digestive discomfort can slow down your entire day — from acidity and gas to nausea and indigestion. Uracid-D Capsules from Urena Pharma offer a trusted, doctor-recommended solution for effective gastrointestinal relief....</p>
+            <div class="blog-meta">
+              <span><i class="fas fa-clock"></i> 6 min read</span>
+              <span><i class="fas fa-comment"></i> 15 comments</span>
+            </div>
+            <button class="blog-read-more-btn">Read Full Article</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Blog Post Modal -->
+    <div id="blogModal" class="blog-modal">
+      <div class="blog-modal-content">
+        <span class="blog-close-modal">&times;</span>
+        <div id="blogModalContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    /* Blog Section Styles */
+    .blog-section {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #f8fbfe 0%, #e6f0fa 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .blog-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .blog-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .blog-title {
+      font-size: 2.5rem;
+      color: #0066cc;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+    
+    .blog-subtitle {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    
+    .blog-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .blog-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .blog-image {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+    
+    .blog-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .blog-card:hover .blog-image img {
+      transform: scale(1.1);
+    }
+    
+    .blog-date {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .blog-date .day {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0066cc;
+    }
+    
+    .blog-date .month {
+      display: block;
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .blog-content {
+      padding: 25px;
+    }
+    
+    .blog-category {
+      color: #0066cc;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    
+    .blog-post-title {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #333;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+    
+    .blog-excerpt {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+    
+    .blog-meta {
+      display: flex;
+      gap: 20px;
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    
+    .blog-meta span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .blog-meta i {
+      font-size: 1rem;
+    }
+    
+    .blog-read-more-btn {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .blog-read-more-btn:hover {
+      background: #0052a3;
+    }
+    
+    /* Modal Styles */
+    .blog-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .blog-modal-content {
+      background: white;
+      margin: 50px auto;
+      padding: 40px;
+      max-width: 800px;
+      border-radius: 12px;
+      position: relative;
+    }
+    
+    .blog-close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #666;
+    }
+    
+    .blog-close-modal:hover {
+      color: #333;
+    }
+    
+    #blogModalContent h1 {
+      font-size: 2rem;
+      color: #0066cc;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+    
+    #blogModalContent .post-meta {
+      display: flex;
+      gap: 15px;
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+    }
+    
+    #blogModalContent img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    #blogModalContent p {
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    #blogModalContent h2 {
+      font-size: 1.5rem;
+      color: #0066cc;
+      margin: 25px 0 15px;
+      font-weight: 600;
+    }
+    
+    #blogModalContent h3 {
+      font-size: 1.2rem;
+      color: #444;
+      margin: 20px 0 10px;
+      font-weight: 600;
+    }
+    
+    #blogModalContent ul {
+      margin: 0 0 20px 20px;
+      list-style: disc;
+    }
+    
+    #blogModalContent li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    
+    @media (max-width: 768px) {
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .blog-modal-content {
+        margin: 20px;
+        padding: 20px;
+      }
+      
+      .blog-title {
+        font-size: 2rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Blog post content
+      const blogPosts = {
+        1: {
+          title: "The Rise of Telemedicine in Modern Healthcare",
+          category: "Digital Health",
+          date: "May 20, 2025",
+          author: "Admin",
+          content: `
+            <h1>Rebuild, Restore, and Revive Your Joints with TenjoFit Tablets</h1>
+            <div class="post-meta">
+              <span>By Admin </span>
+              <span>May 20, 2025</span>
+              <span> Health</span>
+            </div>
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747646367/WhatsApp_Image_2025-05-19_at_14.28.17_fitlo6.jpg" alt="Telemedicine" loading="lazy">
+            <p>In today's fast-moving world, joint pain, stiffness, and mobility issues affect people of all ages. Whether you're a fitness enthusiast, a professional managing long hours, or someone dealing with age-related joint challenges, TenjoFit is here to help you move freely and confidently.</p>
+            
+            <h2> What is TenjoFit? </h2>
+            <p> TenjoFit is an advanced joint support supplement from Urena Pharma, formulated to improve joint flexibility, support cartilage health, and enhance bone strength. With a powerful combination of scientifically backed ingredients, TenjoFit aims to be your everyday joint wellness companion.</p>
+ 
+            <h2> Key Ingredients & Their Benefits: </h2>
+            <ul>
+              <li>Collagen Type I & Undenatured Collagen Type II: Help regenerate cartilage, reduce stiffness, and improve joint elasticity.</li>
+              <li>Calcium Carbonate: Strengthens bones and prevents calcium deficiency.</li>
+              <li>Vitamin K2-7 & Cholecalciferol (Vitamin D3): Enhance calcium absorption and bone mineralization.</li>
+              <li>Vitamin C: Boosts collagen production and acts as an antioxidant.</li>
+              <liMagnesium Oxide & Magnesium Sulphate: Support muscle and nerve function, easing joint discomfort</li>
+              <liZinc Oxide: Essential for cell repair and tissue healing.</li>
+              <li>Copper Sulphate: Aids in connective tissue health..</li>
+              <li>Hyaluronic Acid: Improves joint lubrication and reduces wear-and-tear.</li>
+            </ul>
+            
+            <h2>Why Choose TenjoFit?</h2>
+            <p>Developed by trusted pharmaceutical experts at Urena Pharma:</p>
+            <ul>
+              <li>All-in-one joint care formula</li>
+              <li>Suitable for all age groups</li>
+              <li>Supports joint health naturally</li>
+              <li>Made in India with global standards</li>
+
+            </ul>
+
+            <h2>Ideal For:</h2>
+            
+            <ul>
+              <li>Athletes and gym-goers</li>
+              <li>Elderly individuals with joint stiffness</li>
+              <li>Office workers with sedentary lifestyles</li>
+              <li>Individuals recovering from injuries</li>
+
+            </ul>
+
+            <h2>How to Use:</h2>
+            <p>Take 1 tablet daily after meals or as recommended by your healthcare provider.</p>
+            <p>Support your joints. Support your freedom. Choose TenjoFit.
+
+TenjoFit is a wellness product by Urena Healthcare Pvt. Ltd.</p>
+<p> This website is proudly developed and optimized by Advanx – "your partner in building digital health brands."</p>
+
+
+
+
+          `
+        },
+        2: {
+          title: "Bonura-Max: Stronger Bones, Better Mobility",
+          category: "Research & Innovation",
+          date: "May 21, 2025",
+          author: "Admin",
+          content: `
+            <h1>Bonura-Max: Stronger Bones, Better Mobility</h1>
+            <div class="post-meta">
+              <span>By Admin</span>
+              <span>May 21, 2025</span>
+              <span>Health</span>
+            </div>
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747646367/WhatsApp_Image_2025-05-19_at_14.28.17_1_p3ncbg.jpg" alt="Personalized Medicine" loading="lazy">
+            <p>Bone health is a cornerstone of an active, pain-free life — and as we age or face daily physical strain, it becomes even more critical. That's why Urena Pharma brings you Bonura-Max Softgel Capsules, a scientifically developed supplement to strengthen bones, support joint function, and improve overall skeletal wellness.</p>
+            
+            <h2>What is Bonura-Max?</h2>
+            <ul>
+              <li> Calcitriol (Active Vitamin D3): Helps your body absorb calcium effectively and regulates bone mineralization.</li>
+              <li>Calcium Carbonate: Essential for building and maintaining strong bones and teeth.</li>
+              <li>Magnesium Oxide: Supports bone health and muscle function.</li> 
+              <li>Vitamin B12: Supports bone marrow function and red blood cell formation</li>
+              <li>Vitamin K2-7: Directs calcium to the bones and prevents its accumulation in arteries.</li>
+              <li>Zinc Oxide: Essential for cell repair and tissue healing.</li>
+              <li>Copper Sulphate: Aids in connective tissue health.</li>
+              <li>L-Methyl Folate: Active form of folic acid that aids in cell repair and bone regeneration.</li>
+            </ul>
+
+              <h2>Why Bonura-Max?</h2>
+            <ul>
+              <li>Developed and tested by Urena Pharma with a focus on complete skeletal support.</li>
+              <li>Ideal for all age groups, including elderly individuals and postmenopausal women.</li>
+              <li>Softgel form ensures better absorption and easier digestion</li> 
+              <li>Helps prevent osteoporosis, fractures, and calcium deficiency-related complications</li>
+            
+            </ul>
+
+               <h2Who Should Take Bonura-Max?</h2>
+            <ul>
+              <li>People with weak bones or frequent joint aches</li>
+              <li>Postmenopausal women and aging adults</li>
+              <li>Individuals recovering from fractures or surgeries</li> 
+              <li>Those with a sedentary lifestyle or nutrient deficiencies</li>
+            
+            </ul>
+
+           <p>Stay Strong, Stay Active — Choose Bonura-Max by Urena Healthcare Pvt. Ltd.</p>
+
+<p>This content is published as part of the digital wellness initiative by Advanx, supporting healthcare brands like Urena in building trust and visibility online.
+</p>
+          `
+        },
+        3: {
+          title: "Uracid-D: Targeted Relief for Acidity & Bloating",
+          category: "Research & Innovation",
+          date: "May 21, 2025",
+          author: "Admin",
+          content: `
+            <h1>Uracid-D: Targeted Relief for Acidity & Bloating</h1>
+            <div class="post-meta">
+              <span>By Admin</span>
+              <span>May 21, 2025</span>
+              <span>Health</span>
+            </div>
+            <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747646366/WhatsApp_Image_2025-05-19_at_14.47.13_xjaeb9.jpg" alt="Digestive Capsule Relief" loading="lazy">
+            <p>Digestive discomfort like acidity, bloating, or nausea can ruin your routine. Urena Pharma introduces <strong>Uracid-D Capsules</strong>, a potent combination of Pantoprazole and Domperidone to provide fast and effective relief from gastrointestinal distress.</p>
+            
+            <h2>What is Uracid-D?</h2>
+            <ul>
+              <li><strong>Pantoprazole (Gastro-resistant):</strong> A proton pump inhibitor that lowers stomach acid production and helps treat GERD, ulcers, and acid reflux.</li>
+              <li><strong>Domperidone (Prolonged-release):</strong> Enhances gut motility, relieves nausea, and improves digestion by speeding up gastric emptying.</li>
+            </ul>
+
+            <h2>Why Choose Uracid-D?</h2>
+            <ul>
+              <li>Provides rapid and long-lasting relief from acidity and indigestion.</li>
+              <li>Helps prevent and manage gastroesophageal reflux disease (GERD).</li>
+              <li>Improves digestion by enhancing gastric emptying and motility.</li>
+              <li>Formulated and quality-tested by <strong>Urena Pharma</strong> experts.</li>
+            </ul>
+
+            <h2>Who Should Use Uracid-D?</h2>
+            <ul>
+              <li>Individuals with frequent heartburn or acid reflux</li>
+              <li>People with chronic indigestion or post-meal bloating</li>
+              <li>Patients with gastric ulcers or GERD under medical supervision</li>
+            </ul>
+
+            <p>Take control of your digestive health with <strong>Uracid-D</strong> — Your trusted companion for everyday gut relief,  by <strong>Urena Healthcare Pvt. Ltd.</strong></p>
+
+            <p>This post is created as part of Advanx's SEO and health content initiative, helping brands like Urena reach patients and professionals with clarity and credibility.</p>
+
+            <!-- Hidden SEO Tags: Advanx Pharma SEO | Gastro Capsules by Urena | Uracid-D by Urena | Advanx Healthcare Content | Urena Pharma Blog -->
+          `
+        }
+      };
+
+      // Initialize blog functionality
+      function initializeBlog() {
+        const modal = document.getElementById('blogModal');
+        const modalContent = document.getElementById('blogModalContent');
+        const closeBtn = document.querySelector('.blog-close-modal');
+        
+        // Open blog post
+        function openBlogPost(postId) {
+          const post = blogPosts[postId];
+          if (post) {
+            modalContent.innerHTML = post.content;
+            modal.style.display = 'block';
+            modal.style.animation = 'fadeIn 0.3s ease-out';
+            document.body.style.overflow = 'hidden';
+          }
+        }
+        
+        // Close modal
+        function closeModal() {
+          modal.style.animation = 'fadeOut 0.3s ease-out';
+          setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          }, 250);
+        }
+        
+        // Add click handlers to read more buttons
+        document.querySelectorAll('.blog-read-more-btn').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const postId = this.closest('.blog-card').getAttribute('data-post-id');
+            openBlogPost(postId);
+          });
+        });
+        
+        // Close modal events
+        closeBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            closeModal();
+          }
+        });
+        
+        // Handle escape key
+        document.addEventListener('keydown', function(event) {
+          if (event.key === 'Escape' && modal.style.display === 'block') {
+            closeModal();
+          }
+        });
+      }
+
+      // Initialize when DOM is ready
+      try {
+        initializeBlog();
+      } catch (error) {
+        console.error('Error initializing blog:', error);
+      }
+    });
+  </script>
+</div>
+
+
+
+
+
+
+
+  <!-- Contact Us Section -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-header">
+        <div class="logo-animation">
+          <svg class="logo-pulse" viewBox="0 0 100 100" width="80" height="80">
+            <circle cx="50" cy="50" r="40" fill="#4fd1c5" opacity="0.7"/>
+            <path d="M50 15 L65 50 L50 85 L35 50 Z" fill="#3182ce"/>
+            <path d="M30 30 L50 30 L50 70 L30 70 Z" fill="#4299e1" opacity="0.8"/>
+            <path d="M70 30 L70 70 L50 70 L50 30 Z" fill="#4299e1" opacity="0.8"/>
+          </svg>
+        </div>
+                        <h1 class="main-title">CONTACT US</h1        <h1 class="section-subtitle typing-animation">We'd love to hear from you! Reach out anytime.</h1>
+      </div>
+
+      <div class="contact-container">
+        <div class="contact-form slide-in-left">
+          <h4 class="form-title">Send Us a Message</h4>
+          <form action="mailto:urenahealthcare@gmail.com" method="POST" enctype="text/plain">
+            <div class="form-group floating">
+              <input type="text" id="name" name="name" required autocomplete="name" placeholder=" ">
+              <label for="name">Full Name</label>
+              <div class="underline"></div>
+            </div>
+            <div class="form-group floating">
+              <input type="email" id="email" name="email" required autocomplete="email" placeholder=" ">
+              <label for="email">Email Address</label>
+              <div class="underline"></div>
+            </div>
+            <div class="form-group floating">
+              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder=" ">
+              <label for="phone">Phone Number</label>
+              <div class="underline"></div>
+            </div>
+            <div class="form-group floating">
+              <textarea id="message" name="message" required placeholder=" "></textarea>
+              <label for="message">Your Message</label>
+              <div class="underline"></div>
+            </div>
+            <button type="submit" class="btn btn-gradient pulse-on-hover">
+              <span>Send Message</span>
+              <svg viewBox="0 0 13 10" height="10px" width="15px">
+                <path d="M1,5 L11,5"></path>
+                <polyline points="8 1 12 5 8 9"></polyline>
+              </svg>
+            </button>
+
+            <!-- Animated Support GIF -->
+            <div class="support-animation">
+              <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653394/contact-us-content_rffdcs.gif" 
+                   alt="Support Team Animation" 
+                   class="float-animation" style="max-width: 200px;">
+            </div>
+          </form>
+        </div>
+
+        <div class="contact-info slide-in-right">
+          <div class="info-card glow-on-hover">
+            <div class="info-item">
+              <div class="info-icon pulse-icon">
+                <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653392/484167_gi55ha.png" alt="Location" class="icon-img">
+              </div>
+              <div>
+                <h3>Our Location</h3>
+                <p>
+                  72, Arunachal, Dinanata Apartment, Ground Floor<br>
+                  Rahara, Kolkata - 700118
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card glow-on-hover">
+            <div class="info-item">
+              <div class="info-icon pulse-icon">
+                <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653393/3059518_r4vbcp.png" alt="Phone" class="icon-img">
+              </div>
+              <div>
+                <h3>Contact Numbers</h3>
+                <p>+91 78649 94940</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card glow-on-hover">
+            <div class="info-item">
+              <div class="info-icon pulse-icon">
+                <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747653393/561127_li8ee5.png" alt="Email" class="icon-img">
+              </div>
+              <div>
+                <h3>Email Address</h3>
+                <p><a href="mailto:urenahealthcare@gmail.com" class="hover-underline">urenahealthcare@gmail.com</a></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-buttons">
+            <a href="https://wa.me/917864994940" target="_blank" class="social-btn whatsapp-btn">
+              <i class="fab fa-whatsapp"></i>
+              WhatsApp
+            </a>
+            <a href="https://www.instagram.com/urena.healthcare" target="_blank" class="social-btn instagram-btn">
+              <i class="fab fa-instagram"></i>
+              Instagram
+            </a>
+            <a href="https://www.facebook.com/urena.healthcare" target="_blank" class="social-btn facebook-btn">
+              <i class="fab fa-facebook-f"></i>
+              Facebook
+            </a>
+            <a href="https://www.1mg.com/marketer/urena-healthcare-pvt-ltd-94477" target="_blank" class="social-btn mg-btn">
+              <i class="fas fa-capsules"></i>
+              1mg
+            </a>
+          </div>
+
+          <div class="map-container floating-map">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3683.930984059448!2d88.377399!3d22.7236111!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDQzJzI1LjAiTiA4OMKwMjInNDcuOSJF!5e0!3m2!1sen!2sin!4v1715505530069!5m2!1sen!2sin"
+              width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="Our Headquarters Location Map">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add the contact section styles -->
+  <style>
+    /* Contact Section Styles */
+    :root {
+      --primary-blue: #1a73e8;
+      --secondary-blue: #1a7fb7;
+      --accent-teal: #4fd1c5;
+      --accent-green: #4caf50;
+      --light-bg: #f8fafc;
+      --white: #ffffff;
+      --dark-text: #2d3748;
+      --light-text: #f7fafc;
+      --gray-border: #e2e8f0;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Main Title Styles */
+    .main-title {
+      font-size: 4rem;
+      color: var(--primary-blue);
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px rgba(0, 91, 150, 0.1);
+    }
+
+    /* Animation Keyframes */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes slideInLeft {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInRight {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes textGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(79, 209, 197, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(79, 209, 197, 0); }
+    }
+
+    @keyframes logoPulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.7; }
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: var(--accent-teal) }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Text animation */
+    .animate-charcter {
+      text-transform: uppercase;
+      background-image: linear-gradient(
+        -225deg,
+        #005b96 0%,
+        #1a7fb7 29%,
+        #4fd1c5 67%,
+        #ffffff 100%
+      );
+      background-size: auto auto;
+      background-clip: border-box;
+      background-size: 200% auto;
+      color: #fff;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textGradient 3s linear infinite;
+      display: inline-block;
+    }
+
+    /* Contact Section */
+     
+
+    .contact {
+      padding: 80px 0;  /* Reduced padding */
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(79, 209, 197, 0.1) 0%, rgba(255,255,255,0) 70%);
+      animation: pulseGlow 6s infinite;
+      z-index: 0;
+    }
+
+        .section-header {      text-align: center;      margin-bottom: 60px;      position: relative;      z-index: 1;    }    .logo-animation {      margin-bottom: 10px;    }    .logo-pulse {      animation: logoPulse 3s infinite;      filter: drop-shadow(0 4px 6px rgba(0, 91, 150, 0.2));    }    .main-title {      font-size: 3rem;      color: var(--primary-blue);      margin: 10px 0;      font-weight: 800;      text-transform: uppercase;      letter-spacing: 2px;      text-shadow: 2px 2px 4px rgba(0, 91, 150, 0.1);    }    .section-subtitle {      font-size: 1.2rem;      color: var(--dark-text);      max-width: 700px;      margin: 15px auto;      opacity: 0.9;      border-right: none;      white-space: normal;    }
+
+    .contact-container {
+      margin-top: 30px;  /* Reduced margin */
+      display: flex;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Contact Form */
+       .logo-animation
+       {
+                        padding: 110px;        display: flex;        justify-content: center;        align-items: center;        transform: none;        margin: 0 auto
+       }
+
+    .contact-form {
+      flex: 1;
+      background-color: var(--white);
+      padding: 40px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      animation: slideInLeft 0.8s ease-out;
+      height: 900px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+      color: var(--primary-blue);
+      margin-bottom: 25px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .form-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary-blue), var(--accent-teal));
+      border-radius: 3px;
+    }
+
+    .contact-form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .form-group.floating input,
+    .form-group.floating textarea {
+      width: 100%;
+      padding: 15px 0 5px 0;
+      border: none;
+      border-bottom: 2px solid var(--gray-border);
+      font-size: 1rem;
+      background-color: transparent;
+      transition: var(--transition);
+    }
+
+    .form-group.floating textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-group.floating label {
+      position: absolute;
+      top: 15px;
+      left: 0;
+      color: var(--dark-text);
+      transition: var(--transition);
+      pointer-events: none;
+      font-weight: 500;
+    }
+
+    .form-group.floating input:focus,
+    .form-group.floating textarea:focus {
+      outline: none;
+      border-bottom-color: var(--accent-teal);
+    }
+
+    .form-group.floating input:focus ~ label,
+    .form-group.floating input:not(:placeholder-shown) ~ label,
+    .form-group.floating textarea:focus ~ label,
+    .form-group.floating textarea:not(:placeholder-shown) ~ label {
+      top: 0;
+      font-size: 0.8rem;
+      color: var(--accent-teal);
+    }
+
+    .underline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-teal);
+      transition: var(--transition);
+    }
+
+    .form-group.floating input:focus ~ .underline,
+    .form-group.floating textarea:focus ~ .underline {
+      width: 100%;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: var(--transition);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-gradient {
+      background: linear-gradient(90deg, var(--primary-blue), var(--secondary-blue));
+      color: var(--white);
+      background-size: 200% auto;
+      box-shadow: 0 4px 15px rgba(0, 91, 150, 0.3);
+    }
+
+    .btn-gradient:hover {
+      background-position: right center;
+      transform: translateY(-3px);
+      box-shadow: 0 7px 20px rgba(0, 91, 150, 0.4);
+    }
+
+    .btn-gradient svg {
+      margin-left: 10px;
+      stroke: var(--white);
+      stroke-width: 2;
+      transition: var(--transition);
+    }
+
+    .btn-gradient:hover svg {
+      transform: translateX(5px);
+    }
+
+    .pulse-on-hover:hover {
+      animation: pulse 1s infinite;
+    }
+
+    /* Support Animation */
+    .support-animation {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .float-animation {
+      max-width: 200px;
+      height: auto;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Contact Info */
+    .contact-info {
+      flex: 1;
+      animation: slideInRight 0.8s ease-out;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background-color: var(--white);
+      padding: 25px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+    }
+
+    .glow-on-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .info-icon {
+      background-color: var(--primary-blue);
+      color: var(--white);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0, 91, 150, 0.2);
+    }
+
+    .icon-img {
+      width: 60%;
+      height: auto;
+    }
+
+    .pulse-icon {
+      animation: pulse 2s infinite;
+    }
+
+    .info-item h3 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: var(--primary-blue);
+    }
+
+    .info-item p {
+      color: var(--dark-text);
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .hover-underline {
+      position: relative;
+      color: var(--primary-blue);
+      text-decoration: none;
+    }
+
+    .hover-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-teal);
+      transition: var(--transition);
+    }
+
+    .hover-underline:hover::after {
+      width: 100%;
+    }
+
+    /* Social Cards */
+    .social-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 8px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      transition: transform 0.3s ease;
+    }
+
+    .social-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .social-btn i {
+      margin-right: 8px;
+    }
+
+    .whatsapp-btn {
+      background-color: #25D366;
+    }
+
+    .instagram-btn {
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    }
+
+    .facebook-btn {
+      background-color: #1877F2;
+    }
+
+    .mg-btn {
+      background-color: #ff0000;
+    }
+
+    /* Map Container */
+    .map-container {
+      height: 200px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      box-shadow: var(--box-shadow);
+      transition: var(--transition);
+      flex-grow: 1;
+    }
+
+    .floating-map:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .contact-container {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 3rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .section-subtitle {
+        font-size: 1rem;
+        white-space: normal;
+        animation: none;
+        border-right: none;
+      }
+      
+      .contact-form {
+        padding: 25px;
+        height: auto;
+      }
+      
+      .btn {
+        padding: 12px 25px;
+      }
+      
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
+      
+      .social-buttons {
+        flex-wrap: wrap;
+      }
+      
+      .social-btn {
+        flex: 1 1 calc(50% - 10px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .social-btn {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+
+  <!-- Add the contact section script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Wrap each letter in a span for animation
+      const textWrapper = document.querySelector('.letters');
+      if (textWrapper) {
+        textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+      }
+
+      // Handle form submission
+      const contactForm = document.querySelector('form');
+      if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+          // You can add additional form validation here if needed
+          console.log('Form submitted to urenahealthcare@gmail.com');
+        });
+      }
+    });
+  </script>
+
+    <!-- Floating WhatsApp Button -->  <a href="https://wa.me/917864994940" class="floating-whatsapp-btn">    <i class="fab fa-whatsapp"></i>  </a>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <!-- Section 1: Company Info -->
+      <div class="footer-box">
+        <h3>Urena Healthcare Pvt. Ltd.</h3>
+        <p>Urena Healthcare Pvt. Ltd. Delivers trusted pharmaceutical solutions to improve health and enhance lives.</p>
+      </div>
+      
+      <!-- Section 2: Quick Links -->
+      <div class="footer-box">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/#about">About Us</a></li>
+          <li><a href="#contact">Careers</a></li>
+          <li><a href="#blog">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Section 3: Products -->
+      <div class="footer-box">
+        <h4>Our Products</h4>
+        <ul>
+          <li><a href="#featured-products">TenjoFit</a></li>
+          <li><a href="#featured-products">Bonura-Max</a></li>
+          <li><a href="#featured-products">Uracid-D</a></li>
+        </ul>
+      </div>
+
+       <div class="footer-box">
+            <h4>Contact Us</h4>
+            <p><strong>Address:</strong> 72, Arunachal , Dinanata Apartment ,Ground floor , Rahara, Kolkata- 700118</p>
+            <p><strong>Email:</strong>urenahealthcare@gmail.com</p>
+            <p><strong>Phone:</strong> +91 98765 43210</p>
+            <div class="footer-social">
+              <a href="https://wa.me/7864994940" target="_blank" style="color:#25D366;" title="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <a href="https://www.facebook.com/urena.healthcare" target="_blank" style="color:#1877f2;" title="Facebook">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a href="https://www.instagram.com/urena.healthcare/#" target="_blank" style="color:#e4405f;" title="Instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+     <!-- Copyright -->
+        <div class="footer-bottom">
+          © 2025 Urena Healthcare Pvt. Ltd. All rights reserved 
+        </div>
+         <!-- Developed by ADVNEX -->
+<div style="text-align: center; margin-top: 30px;">
+  <a href="mailto:advnex.team@gmail.com" style="text-decoration: none; color: white;" title="Email ADVNEX">
+    
+    <strong>Website developed by ADVNEX</strong>
+    <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747654504/Picsart_25-05-19_16-47-44-638_aqzfdk.png" alt="ADVNEX Logo" style="height: 30px; vertical-align: middle; margin-right: 6px;margin-bottom: 2px;">
+  </a>
+</div>
+  </footer>
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const mobileUserIcon = document.getElementById('mobileUserIcon');
+
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          mobileMenu.classList.toggle('active');
+          mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? 
+            '<span>✕</span>' : 
+            '<span>☰</span>';
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+          if (!mobileMenuBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<span>☰</span>';
+          }
+        });
+
+        // Close mobile menu when clicking a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<span>☰</span>';
+          });
+        });
+      }
+
+      // Show/hide the mobile user icon based on login status
+      checkLoginStatus().then(isLoggedIn => {
+        if (mobileUserIcon) {
+          mobileUserIcon.style.display = isLoggedIn ? '' : 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+<script>
+#blog {
+  scroll-margin-top: 90px; /* Adjust to your navbar height */
+}
+
+document.querySelector('a[href="#blog"]').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('blog').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // If there is a hash in the URL, remove it and scroll to top
+    if (window.location.hash) {
+      history.replaceState(null, null, window.location.pathname + window.location.search);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  });
+</script>
+
+<script>
+function updateNavbarForAuth() {
+  // Desktop
+  const loginBtn = document.getElementById('loginBtn');
+  const registerBtn = document.getElementById('registerBtn');
+  const youBtn = document.getElementById('youBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  // Mobile
+  const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+  const mobileRegisterBtn = document.getElementById('mobileRegisterBtn');
+  const mobileYouBtn = document.getElementById('mobileYouBtn');
+  const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+
+  checkLoginStatus().then(isLoggedIn => {
+    if (isLoggedIn) {
+      // Show You/Logout, hide Login/Register
+      if (loginBtn) loginBtn.style.display = 'none';
+      if (registerBtn) registerBtn.style.display = 'none';
+      if (youBtn) youBtn.style.display = '';
+      if (logoutBtn) logoutBtn.style.display = '';
+      if (mobileLoginBtn) mobileLoginBtn.style.display = 'none';
+      if (mobileRegisterBtn) mobileRegisterBtn.style.display = 'none';
+      if (mobileYouBtn) mobileYouBtn.style.display = '';
+      if (mobileLogoutBtn) mobileLogoutBtn.style.display = '';
+    } else {
+      // Show Login/Register, hide You/Logout
+      if (loginBtn) loginBtn.style.display = '';
+      if (registerBtn) registerBtn.style.display = '';
+      if (youBtn) youBtn.style.display = 'none';
+      if (logoutBtn) logoutBtn.style.display = 'none';
+      if (mobileLoginBtn) mobileLoginBtn.style.display = '';
+      if (mobileRegisterBtn) mobileRegisterBtn.style.display = '';
+      if (mobileYouBtn) mobileYouBtn.style.display = 'none';
+      if (mobileLogoutBtn) mobileLogoutBtn.style.display = 'none';
+    }
+  });
+}
+
+// Logout handler
+function handleLogout(e) {
+  e.preventDefault();
+  localStorage.removeItem('token');
+  document.cookie = 'token=; Max-Age=0; path=/;';
+  window.location.reload();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  updateNavbarForAuth();
+  // Attach logout handlers
+  const logoutBtn = document.getElementById('logoutBtn');
+  const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+  if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+  if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
+});
+</script>
+<script>
+  // Attach logout handlers
+  const logoutBtn = document.getElementById('logoutBtn');
+  const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+  if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+  if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // ...existing code...
+  // Hero scroll animation
+  const hero = document.querySelector('.video-hero');
+  if (hero) {
+    window.addEventListener('scroll', function() {
+      const scrollY = window.scrollY || window.pageYOffset;
+      // When scrolled more than 120px, add .scrolled
+      if (scrollY > 120) {
+        hero.classList.add('scrolled');
+      } else {
+        hero.classList.remove('scrolled');
+      }
+    });
+  }
+});
+// ... existing code ...
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const youBtn = document.getElementById('youBtn');
+  const mobileUserIcon = document.getElementById('mobileUserIcon');
+  // Get the role from localStorage (assuming you store it as 'role')
+  const role = localStorage.getItem('role');
+  if (role === 'admin') {
+    if (youBtn) youBtn.href = '/admin';
+    if (mobileUserIcon) mobileUserIcon.href = '/admin';
+  } else {
+    if (youBtn) youBtn.href = '/user';
+    if (mobileUserIcon) mobileUserIcon.href = '/user';
+  }
+});
+</script>

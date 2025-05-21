@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urena Healthcare Pvt. Ltd. - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #eef2ff;
+            --primary-dark: #3a56d4;
+            --secondary: #2ec4b6;
+            --accent: #ff9f1c;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2d3748;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem 1rem;
+            box-sizing: border-box;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 7px;
+        }
+
+        .logo i {
+            display: none;
+        }
+
+        .admin-panel-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-left: 0.5rem;
+            flex: 1;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+        }
+
+        .admin-info:hover {
+            background-color: var(--primary-light);
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background-color: var(--danger);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn i {
+            font-size: 1rem;
+        }
+
+        .main-container {
+            width: 100%;
+            padding: 2rem;
+            flex: 1;
+            box-sizing: border-box;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-title {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .orders-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table th,
+        .orders-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .orders-table th {
+            background-color: #f9fafb;
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .order-id {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-placed {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .status-shipped {
+            background-color: #fff3e0;
+            color: var(--accent);
+        }
+
+        .status-delivered {
+            background-color: #e0f7ea;
+            color: var(--success);
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .update-btn {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .update-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .status-select {
+            padding: 0.5rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem 0.5rem;
+            }
+            .header-left {
+                gap: 0.5rem;
+            }
+            .admin-panel-title {
+                font-size: 1.1rem;
+                margin-left: 0.3rem;
+            }
+            .header-right {
+                gap: 0.5rem;
+            }
+            .logo span {
+                display: none;
+            }
+            .admin-panel-title {
+                font-size: 1.1rem;
+                margin-right: 0;
+                margin-top: 0.5rem;
+            }
+            .admin-info {
+                margin-top: 0.5rem;
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .main-container {
+                padding: 1rem 0.5rem;
+            }
+            .stats-container, .analytics-grid, .analytics-metrics-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
+            }
+            .orders-section, .analytics-section {
+                padding: 1rem 0.5rem;
+                margin-bottom: 1rem;
+            }
+            .orders-table th, .orders-table td {
+                padding: 0.5rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            .admin-profile-popup {
+                min-width: 220px;
+                padding: 1rem;
+            }
+            .popup-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+            .popup-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .popup-username {
+                font-size: 1rem;
+            }
+            .popup-content {
+                gap: 0.5rem;
+            }
+            .stat-card, .analytics-card, .metric-card {
+                padding: 1rem;
+            }
+            .dashboard-header {
+                margin-bottom: 1rem;
+            }
+            .page-title {
+                font-size: 1.2rem;
+            }
+            .orders-table-responsive {
+                width: 100%;
+                overflow-x: auto;
+            }
+            .orders-table {
+                min-width: 700px;
+            }
+            .orders-table th, .orders-table td {
+                white-space: nowrap;
+                font-size: 0.95rem;
+                padding: 0.5rem 0.5rem;
+            }
+            .main-container {
+                padding: 0.5rem !important;
+            }
+        }
+
+        .address-cell {
+            max-width: 250px;
+        }
+
+        .address-details {
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .address-street {
+            font-size: 0.9rem;
+            color: var(--dark);
+            margin-bottom: 4px;
+        }
+
+        .user-phone {
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .user-phone::before {
+            content: '\f095';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.8rem;
+        }
+
+        .address-city-state {
+            color: var(--gray);
+        }
+
+        .address-phone {
+            margin-top: 0.25rem;
+            color: var(--primary);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .admin-profile-popup {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            min-width: 300px;
+            z-index: 1000;
+        }
+
+        .admin-profile-popup.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .popup-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .popup-admin-info {
+            flex: 1;
+        }
+
+        .popup-username {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .popup-role {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .popup-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .popup-info-item {
+            padding: 0.75rem;
+            background-color: var(--primary-light);
+            border-radius: var(--radius);
+        }
+
+        .popup-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .popup-value {
+            font-size: 0.95rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Bill Modal Styles */
+        .bill-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bill-modal.show {
+            display: flex;
+        }
+
+        .bill-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .bill-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .bill-company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .bill-details {
+            margin-bottom: 2rem;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .bill-label {
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .bill-value {
+            color: var(--dark);
+        }
+
+        .bill-table {
+            width: 100%;
+            margin-bottom: 2rem;
+            border-collapse: collapse;
+        }
+
+        .bill-table th,
+        .bill-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .bill-total {
+            text-align: right;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid var(--light-gray);
+        }
+
+        .bill-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .print-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .print-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .close-btn {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #d1d5db;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .bill-content, .bill-content * {
+                visibility: visible;
+            }
+            .bill-content {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 1rem;
+            }
+            .bill-actions {
+                display: none;
+            }
+        }
+
+        /* Analytics Section Styles */
+        .analytics-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .analytics-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .analytics-period-select {
+            padding: 0.5rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            color: var(--dark);
+        }
+
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .analytics-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .metric-title {
+            font-size: 0.875rem;
+            color: var(--gray);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-trend {
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        
+
+        .analytics-card {
+            background-color: var(--primary-light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .analytics-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .analytics-card-title {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .analytics-card-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .analytics-card-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .trend-up {
+            color: var(--success);
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .analytics-chart-container {
+            position: relative;
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .analytics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="header-left">
+                <a href="/" class="logo">
+                    <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486214/WhatsApp_Image_2025-05-16_at_16.22.40_hc3cuc.jpg" alt="Urena Healthcare Logo" style="width: 40px; height: 40px;">
+                </a>
+                <span class="admin-panel-title">Admin Panel</span>
+            </div>
+            <div class="header-right">
+                <div class="admin-info" id="adminProfile">
+                    <div class="admin-avatar">
+                        <span id="adminInitial">A</span>
+                    </div>
+                    <div class="admin-name" id="adminName">Admin</div>
+                    <div class="admin-profile-popup" id="adminProfilePopup">
+                        <div class="popup-header">
+                            <div class="popup-avatar">
+                                <span id="popupAdminInitial">A</span>
+                            </div>
+                            <div class="popup-admin-info">
+                                <div class="popup-username" id="popupAdminName">Admin Name</div>
+                                <div class="popup-role">Administrator</div>
+                            </div>
+                        </div>
+                        <div class="popup-content">
+                            <div class="popup-info-item">
+                                <div class="popup-label">Email</div>
+                                <div class="popup-value" id="popupAdminEmail">Loading...</div>
+                            </div>
+                            <div class="popup-info-item">
+                                <div class="popup-label">Phone</div>
+                                <div class="popup-value" id="popupAdminPhone">Loading...</div>
+                            </div>
+                            <div class="popup-info-item">
+                                <div class="popup-label">Address</div>
+                                <div class="popup-value" id="popupAdminAddress">Loading...</div>
+                            </div>
+                            <div class="popup-info-item">
+                                <div class="popup-label">Member Since</div>
+                                <div class="popup-value" id="popupAdminMemberSince">Loading...</div>
+                            </div>
+                            <div class="popup-info-item">
+                                <div class="popup-label">Role Privileges</div>
+                                <div class="popup-value">Full Administrative Access</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="dashboard-header">
+            <h1 class="page-title">Admin Dashboard</h1>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-title">Total Orders</div>
+                <div class="stat-value" id="totalOrders">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Pending Orders</div>
+                <div class="stat-value" id="pendingOrders">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Shipped Orders</div>
+                <div class="stat-value" id="shippedOrders">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-title">Delivered Orders</div>
+                <div class="stat-value" id="deliveredOrders">0</div>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div class="analytics-section">
+            <div class="analytics-header">
+                <h2 class="analytics-title">Business Analytics</h2>
+                <select class="analytics-period-select" id="analyticsPeriod" onchange="updateAnalytics()">
+                    <option value="6">Last 6 Months</option>
+                    <option value="12">Last 12 Months</option>
+                </select>
+            </div>
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <div class="analytics-card-title">Total Revenue</div>
+                        <div class="analytics-card-value" id="totalRevenue">₹0</div>
+                    </div>
+                    <div class="analytics-card-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span id="revenueTrend">0%</span> vs last month
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <div class="analytics-card-title">Average Order Value</div>
+                        <div class="analytics-card-value" id="avgOrderValue">₹0</div>
+                    </div>
+                    <div class="analytics-card-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span id="avgOrderTrend">0%</span> vs last month
+                    </div>
+                </div>
+                <div class="analytics-card">
+                    <div class="analytics-card-header">
+                        <div class="analytics-card-title">Customer Retention</div>
+                        <div class="analytics-card-value" id="customerRetention">0%</div>
+                    </div>
+                    <div class="analytics-card-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span id="retentionTrend">0%</span> vs last month
+                    </div>
+                </div>
+            </div>
+
+            <div class="analytics-metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-title">New Customers</div>
+                    <div class="metric-value" id="newCustomers">0</div>
+                    <div class="metric-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span id="newCustomersTrend">0%</span> this month
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Repeat Orders</div>
+                    <div class="metric-value" id="repeatOrders">0</div>
+                    <div class="metric-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span id="repeatOrdersTrend">0%</span> this month
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Order Completion Rate</div>
+                    <div class="metric-value" id="completionRate">0%</div>
+                    <div class="metric-trend">
+                        <i class="fas fa-arrow-up trend-up"></i>
+                        <span id="completionTrend">0%</span> this month
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">Average Delivery Time</div>
+                    <div class="metric-value" id="avgDeliveryTime">0 days</div>
+                    <div class="metric-trend">
+                        <i class="fas fa-arrow-down trend-up"></i>
+                        <span id="deliveryTimeTrend">0%</span> improvement
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <!-- Orders Section -->
+        <div class="orders-section">
+            <div class="section-header">
+                <h2 class="section-title">Order Management</h2>
+            </div>
+            <div class="orders-table-container orders-table-responsive">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Medicine</th>
+                            <th>Quantity</th>
+                            <th>Address</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Bill Modal -->
+    <div class="bill-modal" id="billModal">
+        <div class="bill-content">
+            <div class="bill-header">
+                <div class="bill-company-name">
+                    <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486214/WhatsApp_Image_2025-05-16_at_16.22.40_hc3cuc.jpg" alt="Urena Healthcare Logo" style="width: 30px; height: 30px; object-fit: contain; margin-right: 8px;">
+                    Urena Healthcare Pvt. Ltd.
+                </div>
+                <div>Invoice</div>
+            </div>
+            <div class="bill-details">
+                <div class="bill-row">
+                    <span class="bill-label">Order ID:</span>
+                    <span class="bill-value" id="billOrderId"></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Date:</span>
+                    <span class="bill-value" id="billDate"></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Customer:</span>
+                    <span class="bill-value" id="billCustomer"></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Address:</span>
+                    <span class="bill-value" id="billAddress"></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Phone:</span>
+                    <span class="bill-value" id="billPhone"></span>
+                </div>
+            </div>
+            <table class="bill-table">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody id="billItems">
+                </tbody>
+            </table>
+            <div class="bill-total">
+                Total Amount: ₹<span id="billTotal">0</span>
+            </div>
+            <div class="bill-actions">
+                <button class="close-btn" onclick="closeBillModal()">Close</button>
+                <button class="print-btn" onclick="printBill()">
+                    <i class="fas fa-print"></i> Print Bill
+                </button>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is admin
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('role');
+
+            if (!token || role !== 'admin') {
+                window.location.href = '/sign-in';
+                return;
+            }
+
+            // Load orders
+            loadOrders();
+
+            const adminProfile = document.getElementById('adminProfile');
+            const popup = document.getElementById('adminProfilePopup');
+            let isPopupVisible = false;
+
+            // Function to load and display admin information
+            async function loadAdminInfo() {
+                try {
+                    const token = localStorage.getItem("token");
+                    const response = await fetch("/api/user/get-user-info", {
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch admin information');
+                    }
+
+                    const adminData = await response.json();
+                    
+                    // Update popup content
+                    document.getElementById('popupAdminName').textContent = adminData.username;
+                    document.getElementById('popupAdminEmail').textContent = adminData.email;
+                    document.getElementById('popupAdminPhone').textContent = adminData.phone || 'Not provided';
+                    document.getElementById('popupAdminAddress').textContent = adminData.address;
+                    document.getElementById('popupAdminInitial').textContent = adminData.username.charAt(0).toUpperCase();
+                    document.getElementById('adminInitial').textContent = adminData.username.charAt(0).toUpperCase();
+                    document.getElementById('adminName').textContent = adminData.username;
+                    
+                    // Format and display member since date
+                    const memberSince = new Date(adminData.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    document.getElementById('popupAdminMemberSince').textContent = memberSince;
+
+                } catch (error) {
+                    console.error('Error loading admin information:', error);
+                    showToast('error', 'Error', 'Failed to load admin information');
+                }
+            }
+
+            // Toggle popup when clicking on admin profile
+            adminProfile.addEventListener('click', async function(e) {
+                if (!isPopupVisible) {
+                    await loadAdminInfo(); // Load admin info when opening popup
+                }
+                popup.classList.toggle('show');
+                isPopupVisible = !isPopupVisible;
+                e.stopPropagation();
+            });
+
+            // Close popup when clicking outside
+            document.addEventListener('click', function(e) {
+                if (isPopupVisible && !popup.contains(e.target) && !adminProfile.contains(e.target)) {
+                    popup.classList.remove('show');
+                    isPopupVisible = false;
+                }
+            });
+
+            // Load admin info on page load
+            loadAdminInfo();
+
+            // Initialize analytics
+            updateAnalytics();
+        });
+
+        // Load all orders
+        async function loadOrders() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '/sign-in';
+                    return;
+                }
+
+                // Fetch all orders
+                const response = await fetch('/api/order/get-all-orders', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load orders');
+                }
+
+                const result = await response.json();
+                
+                if (result.status === 'Success' && Array.isArray(result.data)) {
+                    // Process orders and calculate metrics
+                    const metrics = calculateMetrics(result.data);
+                    updateAnalyticsDisplay(metrics);
+                    updateStats(result.data);
+                    renderOrders(result.data);
+                } else {
+                    throw new Error('Invalid data format received from server');
+                }
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                showToast('error', 'Failed to load orders. Please try again.');
+            }
+        }
+
+        // Update order status
+        async function updateOrderStatus(orderId, status) {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`/api/order/update-status/${orderId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update order status');
+                }
+
+                const result = await response.json();
+                
+                if (result.status === 'Success') {
+                    showToast('success', 'Order status updated successfully');
+                    loadOrders(); // Refresh orders
+                }
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                showToast('error', 'Failed to update order status');
+            }
+        }
+
+        // Update dashboard stats
+        function updateStats(orders) {
+            // Calculate basic stats
+            const totalOrders = orders.length;
+            const pendingOrders = orders.filter(order => order.status === 'order placed').length;
+            const shippedOrders = orders.filter(order => order.status === 'shipped').length;
+            const deliveredOrders = orders.filter(order => order.status === 'delivered').length;
+
+            // Update the DOM
+            document.getElementById('totalOrders').textContent = totalOrders;
+            document.getElementById('pendingOrders').textContent = pendingOrders;
+            document.getElementById('shippedOrders').textContent = shippedOrders;
+            document.getElementById('deliveredOrders').textContent = deliveredOrders;
+        }
+
+        // Render orders table
+        function renderOrders(orders) {
+            const tableBody = document.getElementById('ordersTableBody');
+            tableBody.innerHTML = orders.map(order => {
+                const date = new Date(order.createdAt).toLocaleDateString();
+                const statusClass = {
+                    'order placed': 'status-placed',
+                    'shipped': 'status-shipped',
+                    'delivered': 'status-delivered'
+                }[order.status] || 'status-placed';
+
+                const userAddress = order.user?.address || 'No address provided';
+                const medicineName = order.medicine?.product_name || 'Unknown Medicine';
+                const medicinePrice = order.medicine?.price || 0;
+                const totalPrice = medicinePrice * (order.quantity || 0);
+
+                return `
+                    <tr>
+                        <td class="order-id">${order._id}</td>
+                        <td>${order.user?.username || 'Unknown User'}</td>
+                        <td>${medicineName}</td>
+                        <td>${order.quantity || 0}</td>
+                        <td class="address-cell">
+                            <div class="address-details">
+                                <div class="address-street">${userAddress}</div>
+                                <div class="user-phone">${order.user?.phone || 'No phone provided'}</div>
+                            </div>
+                        </td>
+                        <td>${date}</td>
+                        <td>
+                            <span class="status-badge ${statusClass}">
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td>
+                            <select class="status-select" onchange="updateOrderStatus('${order._id}', this.value)">
+                                <option value="order placed" ${order.status === 'order placed' ? 'selected' : ''}>Order Placed</option>
+                                <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                                <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                            </select>
+                            <button class="action-btn update-btn" onclick="generateBill('${order._id}')">
+                                <i class="fas fa-file-invoice"></i> Generate Bill
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Generate Bill
+        async function generateBill(orderId) {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/order/get-all-orders', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch order details');
+                }
+
+                const result = await response.json();
+                const order = result.data.find(o => o._id === orderId);
+
+                if (!order) {
+                    showToast('error', 'Order not found');
+                    return;
+                }
+
+                // Format date
+                const orderDate = new Date(order.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                // Update bill modal content
+                document.getElementById('billOrderId').textContent = order._id;
+                document.getElementById('billDate').textContent = orderDate;
+                document.getElementById('billCustomer').textContent = order.user?.username || 'Unknown User';
+                document.getElementById('billAddress').textContent = order.user?.address || 'No address provided';
+                document.getElementById('billPhone').textContent = order.user?.phone || 'No phone provided';
+
+                // Calculate total
+                const total = order.medicine?.price * order.quantity || 0;
+
+                // Update items table
+                document.getElementById('billItems').innerHTML = `
+                    <tr>
+                        <td>${order.medicine?.product_name || 'Unknown Medicine'}</td>
+                        <td>${order.quantity}</td>
+                        <td>₹${order.medicine?.price || 0}</td>
+                        <td>₹${total}</td>
+                    </tr>
+                `;
+
+                document.getElementById('billTotal').textContent = total;
+
+                // Show modal
+                document.getElementById('billModal').classList.add('show');
+            } catch (error) {
+                console.error('Error generating bill:', error);
+                showToast('error', 'Failed to generate bill');
+            }
+        }
+
+        // Close bill modal
+        function closeBillModal() {
+            document.getElementById('billModal').classList.remove('show');
+        }
+
+        // Print bill
+        function printBill() {
+            window.print();
+        }
+
+        // Show toast notification
+        function showToast(type, title, message) {
+            const container = document.createElement('div');
+            container.style.position = 'fixed';
+            container.style.top = '1rem';
+            container.style.right = '1rem';
+            container.style.zIndex = '1000';
+            container.style.transition = 'all 0.3s ease';
+            
+            const toast = document.createElement('div');
+            toast.style.backgroundColor = type === 'error' ? '#fee2e2' : '#def7ec';
+            toast.style.color = type === 'error' ? '#dc2626' : '#059669';
+            toast.style.padding = '1rem 1.5rem';
+            toast.style.borderRadius = '0.375rem';
+            toast.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            toast.style.marginBottom = '1rem';
+            toast.style.display = 'flex';
+            toast.style.alignItems = 'center';
+            toast.style.gap = '0.5rem';
+            
+            toast.innerHTML = `
+                <strong>${title}:</strong> ${message}
+            `;
+            
+            container.appendChild(toast);
+            document.body.appendChild(container);
+            
+            setTimeout(() => {
+                container.remove();
+            }, 3000);
+        }
+
+        function handleLogout() {
+            try {
+                // Clear all authentication data
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                // Clear cookies with proper path and domain
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+
+                // Show success message if available
+                if (typeof showToast === 'function') {
+                    showToast('success', 'Logged Out', 'You have been successfully logged out');
+                }
+                
+                // Force redirect to index page
+                window.location.replace('/index');
+            } catch (error) {
+                console.error('Logout error:', error);
+                // Force redirect even if there's an error
+                window.location.replace('/index');
+            }
+        }
+
+        // Initialize Chart.js
+        let revenueChart;
+
+        // Function to generate random growth data (replace with actual data from backend)
+        function generateMonthlyData(months) {
+            const data = [];
+            let baseValue = 50000; // Starting value
+            const today = new Date();
+            
+            for (let i = months - 1; i >= 0; i--) {
+                const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+                const growth = Math.random() * 0.2 - 0.05; // Random growth between -5% and 15%
+                baseValue = baseValue * (1 + growth);
+                
+                data.push({
+                    date: date.toLocaleString('default', { month: 'short', year: 'numeric' }),
+                    value: Math.round(baseValue)
+                });
+            }
+            
+            return data;
+        }
+
+        // Function to calculate metrics from orders data
+        function calculateMetrics(orders) {
+            const currentDate = new Date();
+            const selectedPeriod = parseInt(document.getElementById('analyticsPeriod').value);
+            
+            // Calculate date ranges
+            const periodStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - selectedPeriod, 1);
+            const previousPeriodStart = new Date(currentDate.getFullYear(), currentDate.getMonth() - (selectedPeriod * 2), 1);
+            
+            // Filter orders by period
+            const currentPeriodOrders = orders.filter(order => {
+                const orderDate = new Date(order.createdAt);
+                return orderDate >= periodStart && orderDate <= currentDate;
+            });
+
+            const previousPeriodOrders = orders.filter(order => {
+                const orderDate = new Date(order.createdAt);
+                return orderDate >= previousPeriodStart && orderDate < periodStart;
+            });
+
+            // Calculate revenue
+            const currentRevenue = currentPeriodOrders.reduce((acc, order) => {
+                const price = order.medicine?.price || 0;
+                const quantity = order.quantity || 0;
+                return acc + (price * quantity);
+            }, 0);
+
+            const previousRevenue = previousPeriodOrders.reduce((acc, order) => {
+                const price = order.medicine?.price || 0;
+                const quantity = order.quantity || 0;
+                return acc + (price * quantity);
+            }, 0);
+
+            // Calculate average order value
+            const currentAvg = currentPeriodOrders.length ? 
+                currentRevenue / currentPeriodOrders.length : 0;
+            const previousAvg = previousPeriodOrders.length ? 
+                previousRevenue / previousPeriodOrders.length : 0;
+
+            // Calculate customer metrics
+            const currentCustomers = new Set(currentPeriodOrders.map(order => order.user?._id)).size;
+            const previousCustomers = new Set(previousPeriodOrders.map(order => order.user?._id)).size;
+            
+            // Calculate repeat customers
+            const repeatCustomers = currentPeriodOrders.filter(order => 
+                previousPeriodOrders.some(prevOrder => prevOrder.user?._id === order.user?._id)
+            ).length;
+
+            // Calculate retention rate
+            const retention = currentCustomers ? (repeatCustomers / currentCustomers * 100) : 0;
+
+            // Calculate completion rate
+            const completedOrders = currentPeriodOrders.filter(order => order.status === 'delivered').length;
+            const completionRate = currentPeriodOrders.length ? 
+                (completedOrders / currentPeriodOrders.length * 100) : 0;
+
+            // Calculate delivery time
+            const deliveryTimes = currentPeriodOrders
+                .filter(order => order.status === 'delivered')
+                .map(order => {
+                    const orderDate = new Date(order.createdAt);
+                    const deliveryDate = new Date(order.updatedAt);
+                    return Math.ceil((deliveryDate - orderDate) / (1000 * 60 * 60 * 24));
+                });
+
+            const avgDeliveryTime = deliveryTimes.length ? 
+                deliveryTimes.reduce((acc, time) => acc + time, 0) / deliveryTimes.length : 0;
+
+            // Calculate trends
+            const revenueTrend = previousRevenue ? 
+                ((currentRevenue - previousRevenue) / previousRevenue * 100) : 0;
+            const avgOrderTrend = previousAvg ? 
+                ((currentAvg - previousAvg) / previousAvg * 100) : 0;
+            const customerTrend = previousCustomers ? 
+                ((currentCustomers - previousCustomers) / previousCustomers * 100) : 0;
+
+            return {
+                totalRevenue: currentRevenue,
+                revenueTrend,
+                avgOrderValue: currentAvg,
+                avgOrderTrend,
+                retention,
+                completionRate,
+                avgDeliveryTime,
+                newCustomers: currentCustomers,
+                repeatOrders: repeatCustomers,
+                customerTrend
+            };
+        }
+
+        // Update analytics display
+        function updateAnalyticsDisplay(metrics) {
+            // Update revenue metrics
+            document.getElementById('totalRevenue').textContent = `₹${Math.round(metrics.totalRevenue).toLocaleString()}`;
+            document.getElementById('revenueTrend').textContent = `${Math.abs(metrics.revenueTrend).toFixed(1)}%`;
+            
+            // Update order metrics
+            document.getElementById('avgOrderValue').textContent = `₹${Math.round(metrics.avgOrderValue).toLocaleString()}`;
+            document.getElementById('avgOrderTrend').textContent = `${Math.abs(metrics.avgOrderTrend).toFixed(1)}%`;
+            
+            // Update customer metrics
+            document.getElementById('customerRetention').textContent = `${Math.round(metrics.retention)}%`;
+            document.getElementById('newCustomers').textContent = metrics.newCustomers;
+            document.getElementById('repeatOrders').textContent = metrics.repeatOrders;
+            document.getElementById('newCustomersTrend').textContent = `${Math.abs(metrics.customerTrend).toFixed(1)}%`;
+            
+            // Update operational metrics
+            document.getElementById('completionRate').textContent = `${Math.round(metrics.completionRate)}%`;
+            document.getElementById('avgDeliveryTime').textContent = `${Math.round(metrics.avgDeliveryTime)} days`;
+
+            // Update trend icons
+            updateTrendIcon('revenueTrend', metrics.revenueTrend);
+            updateTrendIcon('avgOrderTrend', metrics.avgOrderTrend);
+            updateTrendIcon('newCustomersTrend', metrics.customerTrend);
+            updateTrendIcon('retentionTrend', metrics.retention - 100);
+            updateTrendIcon('completionTrend', metrics.completionRate - 100);
+            updateTrendIcon('deliveryTimeTrend', -metrics.avgDeliveryTime);
+        }
+
+        // Helper function to update trend icons
+        function updateTrendIcon(elementId, trend) {
+            const element = document.querySelector(`#${elementId}`).parentElement.querySelector('i');
+            if (trend >= 0) {
+                element.className = 'fas fa-arrow-up trend-up';
+            } else {
+                element.className = 'fas fa-arrow-down trend-down';
+            }
+        }
+
+        // Update analytics when period changes
+        function updateAnalytics() {
+            loadOrders(); // This will trigger the entire data fetch and update cycle
+        }
+
+        // Example: adjust according to how you store user info
+        const youBtn = document.getElementById('youBtn');
+        const role = localStorage.getItem('role');
+        if (role === 'admin') {
+            youBtn.href = '/admin';
+        } else {
+            youBtn.href = '/user';
+        }
+        youBtn.style.display = 'inline-block'; // Show the button if logged in
+
+        document.querySelectorAll('.featured-card').forEach(card => {
+            card.onclick = function(e) {
+                e.preventDefault();
+                if (role === 'admin') {
+                    window.location.href = '/admin';
+                } else if (role) {
+                    window.location.href = '/user';
+                } else {
+                    window.location.href = '/Sign-in';
+                }
+            };
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('role');
+            if (role === 'admin') {
+                // Redirect admin to admin panel
+                window.location.href = '/admin';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Urena Healthcare</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0066cc;
+      --primary-dark: #004d99;
+      --secondary: #00a0e1;
+      --accent: #ff6b6b;
+      --white: #ffffff;
+      --black: #222222;
+      --gray: #f5f7fa;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: #f9fafc;
+      background-image: radial-gradient(circle at 10% 20%, rgba(235, 248, 255, 0.8) 0%, rgba(255, 255, 255, 0.9) 90%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar Styles */
+    nav {
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1a3e72;
+      gap: 8px;
+      margin-right: auto;
+      padding-left: 10px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      height: 30px;
+      width: auto;
+    }
+
+    .logo span {
+      font-size: 0.9rem;
+      font-weight: bolder;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      margin-left: 25px;
+      color: #333333;
+      font-weight: 500;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+
+    .nav-links a.active {
+      color: #2a5ea7;
+    }
+
+    .nav-links a.btn-login {
+      background-color: #2a5ea7;
+      color: #ffffff;
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .nav-links a.btn-register {
+      background-color: transparent;
+      color: #2a5ea7;
+      padding: 8px 20px;
+      border-radius: 4px;
+      border: 1px solid #2a5ea7;
+      cursor: pointer;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      color: #333333;
+    }
+
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background-color: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      padding: 20px;
+    }
+
+    .mobile-menu a {
+      padding: 12px 0;
+      color: #333333;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+      display: block;
+    }
+
+    .mobile-menu a.active {
+      color: #2a5ea7;
+    }
+
+    .mobile-menu a.btn-login {
+      background-color: #2a5ea7;
+      color: #ffffff;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+      border-bottom: none;
+    }
+
+    .mobile-menu a.btn-register {
+      background-color: transparent;
+      color: #2a5ea7;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      text-align: center;
+      border: 1px solid #2a5ea7;
+    }
+
+    /* Registration Form */
+    .register-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .register-header h1 {
+      font-size: 2rem;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .register-header p {
+      color: #7f8c8d;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dcdfe6;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+    }
+
+    .form-group .input-error {
+      border-color: var(--accent);
+    }
+
+    .error-message {
+      color: var(--accent);
+      font-size: 0.875rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .phone-input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phone-input-container select {
+      width: 80px;
+      padding: 12px;
+      border: 1px solid #dcdfe6;
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    .phone-input-container input {
+      flex: 1;
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .register-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #7f8c8d;
+    }
+
+    .login-link a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Alert Messages */
+    .alert {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #0d1b2a;
+      color: #ffffff;
+      padding: 20px;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-text {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block;
+      }
+      
+      .register-container {
+        margin: 30px 20px;
+        padding: 20px;
+      }
+      
+      .register-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <div class="nav-container">
+      <a href="index.hbs" class="logo">
+        <img src="https://res.cloudinary.com/dalupyned/image/upload/v1747486214/WhatsApp_Image_2025-05-16_at_16.22.40_hc3cuc.jpg" alt="Urena Healthcare Logo">
+        <span>Urena Healthcare Pvt. Ltd.</span>
+      </a>
+      
+      <div class="nav-links" id="navLinks">
+        
+      </div>
+      
+      <div class="mobile-menu-btn" id="mobileMenuBtn">
+      
+  </nav>
+
+  <!-- Registration Form -->
+  <div class="register-container">
+    <div class="register-header">
+      <h1>Create Account</h1>
+      <p>Join Urena Healthcare today</p>
+    </div>
+
+    <div id="alertSuccess" class="alert alert-success">
+      Registration successful! Redirecting to login...
+    </div>
+
+    <div id="alertError" class="alert alert-error">
+      An error occurred. Please try again.
+    </div>
+
+    <form id="registerForm" onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required minlength="4">
+        <div class="error-message" id="usernameError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+        <div class="error-message" id="emailError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <div class="phone-input-container">
+          <select id="phoneCountry" name="phoneCountry">
+            <option value="+91">+91</option>
+            <option value="+1">+1</option>
+            <option value="+44">+44</option>
+            <option value="+86">+86</option>
+            <option value="+81">+81</option>
+          </select>
+          <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" placeholder="Enter 10-digit number">
+        </div>
+        <div class="error-message" id="phoneError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required minlength="6">
+        <div class="error-message" id="passwordError"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required minlength="6">
+        <div class="error-message" id="addressError"></div>
+      </div>
+
+      <button type="submit" class="register-btn">Create Account</button>
+    </form>
+
+    <div class="login-link">
+      Already have an account? <a href="/sign-in">Login</a>
+    </div>
+  </div>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mobile menu functionality
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+          const isDisplayed = mobileMenu.style.display === 'flex';
+          mobileMenu.style.display = isDisplayed ? 'none' : 'flex';
+          mobileMenuBtn.innerHTML = isDisplayed ? 
+            '<span>☰</span>' : 
+            '<span>✕</span>';
+        });
+      }
+
+      // Password visibility toggle
+      const togglePassword = document.getElementById('togglePassword');
+      const password = document.getElementById('password');
+      
+      if (togglePassword && password) {
+        togglePassword.addEventListener('click', function() {
+          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+          password.setAttribute('type', type);
+          this.classList.toggle('fa-eye');
+          this.classList.toggle('fa-eye-slash');
+        });
+      }
+
+      // Form submission
+      const registerForm = document.getElementById('registerForm');
+      
+      if (registerForm) {
+        registerForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const formData = new FormData(this);
+          const phoneCountry = formData.get("phoneCountry");
+          const phoneNumber = formData.get("phone");
+          const fullPhoneNumber = `${phoneCountry}${phoneNumber}`;
+          
+          const data = {
+            username: formData.get("username"),
+            email: formData.get("email"),
+            password: formData.get("password"),
+            address: formData.get("address"),
+            phone: fullPhoneNumber
+          };
+          
+          try {
+            const response = await fetch("/api/user/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(data)
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok) {
+              // Show success message
+              document.getElementById('alertSuccess').style.display = 'block';
+              
+              // Redirect to login page after 2 seconds
+              setTimeout(() => {
+                window.location.href = "/sign-in";
+              }, 2000);
+            } else {
+              // Show error message
+              document.getElementById('alertError').textContent = result.message || 'Registration failed. Please try again.';
+              document.getElementById('alertError').style.display = 'block';
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('alertError').textContent = 'Something went wrong!';
+            document.getElementById('alertError').style.display = 'block';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
