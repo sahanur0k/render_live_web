@@ -29,7 +29,7 @@ app.get("/index", (req, res) => {
 app.get("/register", (req, res) => {
   res.render("register")
 })
-app.get("/Sign-in", (req, res) => {
+app.get("/sign-in", (req, res) => {
   res.render("sign-in")
 })
 app.get("/sign-in", (req, res) => {
