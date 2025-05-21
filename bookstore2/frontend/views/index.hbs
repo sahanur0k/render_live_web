@@ -1843,7 +1843,7 @@
       const localToken = localStorage.getItem('token');
       if (localToken) {
         // Verify token with backend
-        const response = await fetch('/api/order/verify-token', {
+        const response = await fetch('https://render-live-backend.onrender.com/api/order/verify-token', {
           headers: {
             'Authorization': `Bearer ${localToken}`
           }
@@ -1866,7 +1866,7 @@
       if (cookieToken) {
         const token = cookieToken.split('=')[1];
         // Verify token with backend
-        const response = await fetch('/api/order/verify-token', {
+        const response = await fetch('https://render-live-backend.onrender.com/api/order/verify-token', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
